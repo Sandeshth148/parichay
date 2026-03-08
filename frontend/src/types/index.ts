@@ -10,7 +10,7 @@ export interface Room {
   currentTurn: string;
   level: number;
   openedCards: number[];
-  status: 'waiting' | 'active' | 'completed';
+  status: "waiting" | "active" | "completed";
   createdAt: number;
 }
 
@@ -25,6 +25,7 @@ export interface Card {
 export interface Level {
   id: number;
   title: string;
+  description: string;
   cards: Card[];
 }
 

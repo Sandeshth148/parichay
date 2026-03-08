@@ -4,6 +4,7 @@ export const levels: Level[] = [
   {
     id: 1,
     title: "Level 1 — Basics",
+    description: "Get to know each other's daily life, habits, and preferences. The basics matter more than you think.",
     cards: [
       {
         id: 1,
@@ -186,6 +187,7 @@ export const levels: Level[] = [
   {
     id: 2,
     title: "Level 2 — Values",
+    description: "Explore what drives you — your values, beliefs, and what you stand for.",
     cards: [
       {
         id: 1,
@@ -368,6 +370,7 @@ export const levels: Level[] = [
   {
     id: 3,
     title: "Level 3 — Life & Compatibility",
+    description: "Understanding how you handle real life — stress, boundaries, trust, and compatibility.",
     cards: [
       {
         id: 1,
@@ -550,6 +553,7 @@ export const levels: Level[] = [
   {
     id: 4,
     title: "Level 4 — Future & Family",
+    description: "The big decisions — children, finances, family, and where life is headed.",
     cards: [
       {
         id: 1,
@@ -732,6 +736,7 @@ export const levels: Level[] = [
   {
     id: 5,
     title: "Level 5 — Deep Compatibility",
+    description: "The deepest layer — fears, healing, vulnerability, and why you\u2019re here.",
     cards: [
       {
         id: 1,

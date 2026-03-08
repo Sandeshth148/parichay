@@ -5,8 +5,12 @@ import { useGameStore } from "../store/gameStore";
 import { CardGrid } from "../components/CardGrid/CardGrid";
 import { PlayerPanel } from "../components/PlayerPanel/PlayerPanel";
 import { DiscussionModal } from "../components/DiscussionModal/DiscussionModal";
-import { Copy, Check, LogOut } from "lucide-react";
+import { advanceLevel, completeRoom } from "../services/roomService";
+import { levels } from "../data/topics";
+import { Copy, Check, LogOut, ChevronRight, Trophy } from "lucide-react";
 import { useState } from "react";
+
+const MAX_LEVEL = levels.length;
 
 export function RoomPage() {
   const { roomId } = useParams<{ roomId: string }>();
@@ -15,6 +19,7 @@ export function RoomPage() {
   const selectedCard = useGameStore((state) => state.selectedCard);
   const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
+  const [advancing, setAdvancing] = useState(false);
 
   const copyRoomCode = () => {
     if (roomId) {
@@ -75,11 +80,82 @@ export function RoomPage() {
     (p) => p.id === room.currentTurn,
   )?.name;
 
+  const levelDone = room.openedCards.length >= 16;
+  const isLastLevel = room.level >= MAX_LEVEL;
+  const currentLevel = levels.find((l) => l.id === room.level);
+  const nextLevel = levels.find((l) => l.id === room.level + 1);
+
+  const handleAdvanceLevel = async () => {
+    if (!roomId) return;
+    setAdvancing(true);
+    await advanceLevel(roomId);
+    setAdvancing(false);
+  };
+
+  const handleFinishGame = async () => {
+    if (!roomId) return;
+    await completeRoom(roomId);
+    navigate("/summary");
+  };
+
+  // Level complete screen
+  if (levelDone) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-50 to-orange-100 p-4">
+        <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 max-w-md w-full text-center">
+          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-5">
+            <Trophy className="w-8 h-8 text-green-600" />
+          </div>
+
+          <h2 className="text-2xl font-bold text-amber-900 mb-2">
+            {currentLevel?.title} Complete!
+          </h2>
+          <p className="text-amber-600 text-sm mb-6">
+            You discussed all 16 topics in this level. Well done, both of you.
+          </p>
+
+          {!isLastLevel && nextLevel ? (
+            <>
+              <div className="bg-amber-50 rounded-xl p-5 mb-6 text-left">
+                <h3 className="text-sm font-bold text-amber-900 mb-1">
+                  Up next: {nextLevel.title}
+                </h3>
+                <p className="text-amber-600 text-sm leading-relaxed">
+                  {nextLevel.description}
+                </p>
+              </div>
+              <button
+                onClick={handleAdvanceLevel}
+                disabled={advancing}
+                className="w-full bg-amber-600 text-white py-3 rounded-lg font-semibold hover:bg-amber-700 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+              >
+                Continue to {nextLevel.title}
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </>
+          ) : (
+            <>
+              <p className="text-amber-700 text-sm mb-6">
+                You have completed all {MAX_LEVEL} levels. This was a meaningful journey.
+              </p>
+              <button
+                onClick={handleFinishGame}
+                className="w-full bg-amber-600 text-white py-3 rounded-lg font-semibold hover:bg-amber-700 transition-colors"
+              >
+                View Summary
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100">
       {/* Top bar */}
       <div className="bg-white/80 backdrop-blur-sm border-b border-amber-200 px-4 py-3">
-        <div className="max-w-lg mx-auto flex items-center justify-between">
+        <div className="max-w-2xl mx-auto flex items-center justify-between">
           <div className="min-w-0">
             <h1 className="text-base sm:text-lg font-bold text-amber-900 truncate">
               {room.players.map((p) => p.name).join(" & ")}
@@ -102,7 +178,17 @@ export function RoomPage() {
         </div>
       </div>
 
-      <div className="px-4 py-4 max-w-lg mx-auto">
+      <div className="px-4 py-4 max-w-2xl mx-auto">
+        {/* Level header */}
+        <div className="text-center mb-3">
+          <h2 className="text-sm font-semibold text-amber-700">
+            {currentLevel?.title}
+          </h2>
+          <p className="text-xs text-amber-400 mt-0.5">
+            {currentLevel?.description}
+          </p>
+        </div>
+
         {/* Turn indicator */}
         <div className="text-center mb-4">
           <div
@@ -122,7 +208,7 @@ export function RoomPage() {
         <div className="mb-4">
           <div className="flex items-center justify-between text-xs text-amber-500 mb-1.5 px-1">
             <span>{room.openedCards.length} / 16 discussed</span>
-            <span>Level {room.level}</span>
+            <span>Level {room.level} of {MAX_LEVEL}</span>
           </div>
           <div className="h-1.5 bg-amber-200 rounded-full overflow-hidden">
             <div

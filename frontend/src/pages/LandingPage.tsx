@@ -1,14 +1,15 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../store/authStore';
-import { Heart } from 'lucide-react';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../store/authStore";
+import { Users } from "lucide-react";
 
 export function LandingPage() {
   const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
-  const { login, signup, loginWithGoogle, error, loading, clearError } = useAuthStore();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const { login, signup, loginWithGoogle, error, loading, clearError } =
+    useAuthStore();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -19,13 +20,13 @@ export function LandingPage() {
       await signup(email, password, name);
     }
     const user = useAuthStore.getState().user;
-    if (user) navigate('/dashboard');
+    if (user) navigate("/dashboard");
   };
 
   const handleGoogleLogin = async () => {
     await loginWithGoogle();
     const user = useAuthStore.getState().user;
-    if (user) navigate('/dashboard');
+    if (user) navigate("/dashboard");
   };
 
   const toggleMode = () => {
@@ -38,19 +39,15 @@ export function LandingPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Heart className="w-10 h-10 text-rose-500" fill="currentColor" />
+            <Users className="w-10 h-10 text-amber-700" />
           </div>
-          <h1 className="text-3xl font-bold text-amber-900">
-            Conversation Deck
-          </h1>
-          <p className="text-amber-700 mt-2">
-            Meaningful conversations for couples
-          </p>
+          <h1 className="text-3xl font-bold text-amber-900">Parichay</h1>
+          <p className="text-amber-700 mt-2">Conversations before commitment</p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-xl p-8">
           <h2 className="text-xl font-semibold text-amber-900 mb-6 text-center">
-            {isLogin ? 'Welcome Back' : 'Create Account'}
+            {isLogin ? "Welcome Back" : "Create Account"}
           </h2>
 
           {error && (
@@ -110,7 +107,7 @@ export function LandingPage() {
               disabled={loading}
               className="w-full bg-amber-600 text-white py-3 rounded-lg font-semibold hover:bg-amber-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? 'Please wait...' : isLogin ? 'Log In' : 'Sign Up'}
+              {loading ? "Please wait..." : isLogin ? "Log In" : "Sign Up"}
             </button>
           </form>
 
@@ -147,12 +144,12 @@ export function LandingPage() {
           </button>
 
           <p className="text-center mt-6 text-amber-700 text-sm">
-            {isLogin ? "Don't have an account?" : 'Already have an account?'}
+            {isLogin ? "Don't have an account?" : "Already have an account?"}
             <button
               onClick={toggleMode}
               className="text-amber-600 font-semibold ml-1 hover:underline"
             >
-              {isLogin ? 'Sign Up' : 'Log In'}
+              {isLogin ? "Sign Up" : "Log In"}
             </button>
           </p>
         </div>

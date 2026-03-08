@@ -126,6 +126,19 @@ export async function updateRoomCards(
   saveRooms(rooms);
 }
 
+export async function advanceLevel(roomCode: string): Promise<void> {
+  const rooms = getRooms();
+  if (!rooms[roomCode]) return;
+  const room = rooms[roomCode];
+  rooms[roomCode] = {
+    ...room,
+    level: room.level + 1,
+    openedCards: [],
+    currentTurn: room.hostUserId,
+  };
+  saveRooms(rooms);
+}
+
 export async function completeRoom(roomCode: string): Promise<void> {
   const rooms = getRooms();
   if (!rooms[roomCode]) return;
