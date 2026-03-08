@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+dist/
+build/
+
+# Environment variables — NEVER commit these
+.env
+.env.local
+.env.*.local
+
+# Firebase service account key — contains secrets
+backend/serviceAccountKey.json
+
+# Vite
+frontend/dist/
+frontend/.vite/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
