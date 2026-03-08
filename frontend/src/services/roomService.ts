@@ -30,7 +30,8 @@ function generateRoomCode(): string {
 
 function getCurrentUser() {
   try {
-    const raw = localStorage.getItem("cd_session");
+    // sessionStorage is tab-isolated — matches authStore's per-tab session
+    const raw = sessionStorage.getItem("cd_session");
     return raw ? JSON.parse(raw) : null;
   } catch {
     return null;
@@ -130,12 +131,24 @@ export async function advanceLevel(roomCode: string): Promise<void> {
   const rooms = getRooms();
   if (!rooms[roomCode]) return;
   const room = rooms[roomCode];
-  const currentUser = getCurrentUser();
   rooms[roomCode] = {
     ...room,
     level: room.level + 1,
     openedCards: [],
-    currentTurn: currentUser?.uid || room.players[0].id,
+    currentTurn: room.players[0].id,
+  };
+  saveRooms(rooms);
+}
+
+export async function goToLevel(roomCode: string, level: number): Promise<void> {
+  const rooms = getRooms();
+  if (!rooms[roomCode]) return;
+  const room = rooms[roomCode];
+  rooms[roomCode] = {
+    ...room,
+    level,
+    openedCards: [],
+    currentTurn: room.players[0].id,
   };
   saveRooms(rooms);
 }

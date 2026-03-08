@@ -28,7 +28,8 @@ function saveUsers(users: StoredUser[]) {
 
 function getSession(): AppUser | null {
   try {
-    const raw = localStorage.getItem(SESSION_KEY);
+    // sessionStorage is tab-isolated — each tab keeps its own logged-in user
+    const raw = sessionStorage.getItem(SESSION_KEY);
     return raw ? JSON.parse(raw) : null;
   } catch {
     return null;
@@ -36,11 +37,11 @@ function getSession(): AppUser | null {
 }
 
 function saveSession(user: AppUser) {
-  localStorage.setItem(SESSION_KEY, JSON.stringify(user));
+  sessionStorage.setItem(SESSION_KEY, JSON.stringify(user));
 }
 
 function clearSession() {
-  localStorage.removeItem(SESSION_KEY);
+  sessionStorage.removeItem(SESSION_KEY);
 }
 
 function generateUid(): string {

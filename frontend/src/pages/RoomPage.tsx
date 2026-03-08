@@ -5,7 +5,7 @@ import { useGameStore } from "../store/gameStore";
 import { CardGrid } from "../components/CardGrid/CardGrid";
 import { PlayerPanel } from "../components/PlayerPanel/PlayerPanel";
 import { DiscussionModal } from "../components/DiscussionModal/DiscussionModal";
-import { advanceLevel, completeRoom, getRoom } from "../services/roomService";
+import { advanceLevel, completeRoom, getRoom, goToLevel } from "../services/roomService";
 import { levels } from "../data/topics";
 import { Copy, Check, LogOut, ChevronRight, Trophy } from "lucide-react";
 import { useState } from "react";
@@ -108,6 +108,19 @@ export function RoomPage() {
     navigate("/summary");
   };
 
+  const handleGoToLevel = async (level: number) => {
+    if (!roomId) return;
+    setAdvancing(true);
+    await goToLevel(roomId, level);
+    const updatedRoom = await getRoom(roomId);
+    if (updatedRoom) {
+      setRoom(updatedRoom);
+      const newCards = getCardsForLevel(updatedRoom.level);
+      setCards(newCards);
+    }
+    setAdvancing(false);
+  };
+
   // Level complete screen
   if (levelDone) {
     return (
@@ -185,6 +198,27 @@ export function RoomPage() {
               <LogOut className="w-4 h-4" />
             </button>
           </div>
+        </div>
+      </div>
+
+      {/* Level quick-nav */}
+      <div className="bg-amber-50 border-b border-amber-100 px-4 py-2">
+        <div className="max-w-6xl mx-auto flex items-center gap-2 flex-wrap">
+          <span className="text-xs text-amber-500 font-medium shrink-0">Jump to:</span>
+          {levels.map((l) => (
+            <button
+              key={l.id}
+              onClick={() => handleGoToLevel(l.id)}
+              disabled={advancing}
+              className={`text-xs px-3 py-1 rounded-full font-semibold transition-colors disabled:opacity-50 ${
+                room.level === l.id
+                  ? "bg-amber-600 text-white"
+                  : "bg-amber-200 text-amber-800 hover:bg-amber-300"
+              }`}
+            >
+              L{l.id}
+            </button>
+          ))}
         </div>
       </div>
 
