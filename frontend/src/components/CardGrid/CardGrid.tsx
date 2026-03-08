@@ -21,7 +21,7 @@ export function CardGrid() {
   };
 
   return (
-    <div className="grid grid-cols-4 gap-2 sm:gap-3 md:gap-4 w-full max-w-2xl mx-auto">
+    <div className="grid grid-cols-4 gap-3 sm:gap-4 md:gap-5 w-full mx-auto">
       {cards.map((card) => (
         <Card
           key={card.id}

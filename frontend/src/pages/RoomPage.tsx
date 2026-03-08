@@ -155,7 +155,7 @@ export function RoomPage() {
     <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100">
       {/* Top bar */}
       <div className="bg-white/80 backdrop-blur-sm border-b border-amber-200 px-4 py-3">
-        <div className="max-w-2xl mx-auto flex items-center justify-between">
+        <div className="max-w-5xl mx-auto flex items-center justify-between">
           <div className="min-w-0">
             <h1 className="text-base sm:text-lg font-bold text-amber-900 truncate">
               {room.players.map((p) => p.name).join(" & ")}
@@ -178,7 +178,7 @@ export function RoomPage() {
         </div>
       </div>
 
-      <div className="px-4 py-4 max-w-2xl mx-auto">
+      <div className="px-4 py-4 max-w-5xl mx-auto">
         {/* Level header */}
         <div className="text-center mb-3">
           <h2 className="text-sm font-semibold text-amber-700">
