@@ -130,11 +130,12 @@ export async function advanceLevel(roomCode: string): Promise<void> {
   const rooms = getRooms();
   if (!rooms[roomCode]) return;
   const room = rooms[roomCode];
+  const currentUser = getCurrentUser();
   rooms[roomCode] = {
     ...room,
     level: room.level + 1,
     openedCards: [],
-    currentTurn: room.hostUserId,
+    currentTurn: currentUser?.uid || room.players[0].id,
   };
   saveRooms(rooms);
 }
