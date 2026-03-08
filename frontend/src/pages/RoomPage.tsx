@@ -5,7 +5,7 @@ import { useGameStore } from "../store/gameStore";
 import { CardGrid } from "../components/CardGrid/CardGrid";
 import { PlayerPanel } from "../components/PlayerPanel/PlayerPanel";
 import { DiscussionModal } from "../components/DiscussionModal/DiscussionModal";
-import { advanceLevel, completeRoom } from "../services/roomService";
+import { advanceLevel, completeRoom, getRoom } from "../services/roomService";
 import { levels } from "../data/topics";
 import { Copy, Check, LogOut, ChevronRight, Trophy } from "lucide-react";
 import { useState } from "react";
@@ -17,6 +17,9 @@ export function RoomPage() {
   const room = useRoom(roomId);
   const user = useAuthStore((state) => state.user);
   const selectedCard = useGameStore((state) => state.selectedCard);
+  const setRoom = useGameStore((state) => state.setRoom);
+  const setCards = useGameStore((state) => state.setCards);
+  const getCardsForLevel = useGameStore((state) => state.getCardsForLevel);
   const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
   const [advancing, setAdvancing] = useState(false);
@@ -89,6 +92,13 @@ export function RoomPage() {
     if (!roomId) return;
     setAdvancing(true);
     await advanceLevel(roomId);
+    // Force-refresh store with updated room and new level's cards
+    const updatedRoom = await getRoom(roomId);
+    if (updatedRoom) {
+      setRoom(updatedRoom);
+      const newCards = getCardsForLevel(updatedRoom.level);
+      setCards(newCards);
+    }
     setAdvancing(false);
   };
 
@@ -155,7 +165,7 @@ export function RoomPage() {
     <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100">
       {/* Top bar */}
       <div className="bg-white/80 backdrop-blur-sm border-b border-amber-200 px-4 py-3">
-        <div className="max-w-5xl mx-auto flex items-center justify-between">
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="min-w-0">
             <h1 className="text-base sm:text-lg font-bold text-amber-900 truncate">
               {room.players.map((p) => p.name).join(" & ")}
@@ -178,7 +188,7 @@ export function RoomPage() {
         </div>
       </div>
 
-      <div className="px-4 py-4 max-w-5xl mx-auto">
+      <div className="px-4 py-4 max-w-6xl mx-auto">
         {/* Level header */}
         <div className="text-center mb-3">
           <h2 className="text-sm font-semibold text-amber-700">
