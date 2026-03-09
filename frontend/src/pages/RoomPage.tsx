@@ -109,60 +109,6 @@ export function RoomPage() {
     setAdvancing(false);
   };
 
-  // Level complete screen
-  if (levelDone) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-50 to-orange-100 p-4">
-        <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 max-w-md w-full text-center">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-5">
-            <Trophy className="w-8 h-8 text-green-600" />
-          </div>
-
-          <h2 className="text-2xl font-bold text-amber-900 mb-2">
-            {currentLevel?.title} Complete!
-          </h2>
-          <p className="text-amber-600 text-sm mb-6">
-            You discussed all 16 topics in this level. Well done, both of you.
-          </p>
-
-          {!isLastLevel && nextLevel ? (
-            <>
-              <div className="bg-amber-50 rounded-xl p-5 mb-6 text-left">
-                <h3 className="text-sm font-bold text-amber-900 mb-1">
-                  Up next: {nextLevel.title}
-                </h3>
-                <p className="text-amber-600 text-sm leading-relaxed">
-                  {nextLevel.description}
-                </p>
-              </div>
-              <button
-                onClick={handleAdvanceLevel}
-                disabled={advancing}
-                className="w-full bg-amber-600 text-white py-3 rounded-lg font-semibold hover:bg-amber-700 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
-              >
-                Continue to {nextLevel.title}
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </>
-          ) : (
-            <>
-              <p className="text-amber-700 text-sm mb-6">
-                You have completed all {MAX_LEVEL} levels. This was a meaningful
-                journey.
-              </p>
-              <button
-                onClick={handleFinishGame}
-                className="w-full bg-amber-600 text-white py-3 rounded-lg font-semibold hover:bg-amber-700 transition-colors"
-              >
-                View Summary
-              </button>
-            </>
-          )}
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100">
       {/* Top bar */}
@@ -196,20 +142,28 @@ export function RoomPage() {
           <span className="text-xs text-amber-500 font-medium shrink-0">
             Jump to:
           </span>
-          {levels.map((l) => (
-            <button
-              key={l.id}
-              onClick={() => handleGoToLevel(l.id)}
-              disabled={advancing}
-              className={`text-xs px-3 py-1 rounded-full font-semibold transition-colors disabled:opacity-50 ${
-                room.level === l.id
-                  ? "bg-amber-600 text-white"
-                  : "bg-amber-200 text-amber-800 hover:bg-amber-300"
-              }`}
-            >
-              L{l.id}
-            </button>
-          ))}
+          {levels.map((l) => {
+            const isCurrentLevel = room.level === l.id;
+            const isCompleted = l.id < room.level;
+            const isLocked = l.id > room.level;
+            return (
+              <button
+                key={l.id}
+                onClick={() => !isLocked && handleGoToLevel(l.id)}
+                disabled={isLocked || advancing}
+                title={isLocked ? "Complete the current level first" : undefined}
+                className={`text-xs px-3 py-1 rounded-full font-semibold transition-colors ${
+                  isCurrentLevel
+                    ? "bg-amber-600 text-white"
+                    : isCompleted
+                      ? "bg-green-200 text-green-800 hover:bg-green-300 cursor-pointer"
+                      : "bg-amber-100 text-amber-300 cursor-not-allowed"
+                }`}
+              >
+                {isCompleted ? "✓ " : ""}L{l.id}
+              </button>
+            );
+          })}
         </div>
       </div>
 
@@ -224,20 +178,51 @@ export function RoomPage() {
           </p>
         </div>
 
-        {/* Turn indicator */}
-        <div className="text-center mb-4">
-          <div
-            className={`inline-block px-4 py-2 rounded-full text-sm font-semibold ${
-              isMyTurn
-                ? "bg-green-100 text-green-800"
-                : "bg-amber-100 text-amber-700"
-            }`}
-          >
-            {isMyTurn
-              ? "Your turn — tap a card!"
-              : `${activePlayerName}'s turn...`}
+        {/* Level complete banner OR turn indicator */}
+        {levelDone ? (
+          <div className="mb-4 bg-white rounded-2xl shadow-md border border-green-200 p-4 text-center">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <Trophy className="w-5 h-5 text-green-600" />
+              <span className="font-bold text-amber-900 text-sm">{currentLevel?.title} Complete!</span>
+            </div>
+            {!isLastLevel && nextLevel ? (
+              <>
+                <p className="text-xs text-amber-600 mb-3">Up next: <span className="font-semibold">{nextLevel.title}</span> — {nextLevel.description}</p>
+                <button
+                  onClick={handleAdvanceLevel}
+                  disabled={advancing}
+                  className="bg-amber-600 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-amber-700 transition-colors flex items-center gap-1 mx-auto disabled:opacity-50"
+                >
+                  Continue to {nextLevel.title} <ChevronRight className="w-4 h-4" />
+                </button>
+              </>
+            ) : (
+              <>
+                <p className="text-xs text-amber-600 mb-3">You've completed all {MAX_LEVEL} levels — what a journey!</p>
+                <button
+                  onClick={handleFinishGame}
+                  className="bg-amber-600 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-amber-700 transition-colors mx-auto"
+                >
+                  View Summary
+                </button>
+              </>
+            )}
           </div>
-        </div>
+        ) : (
+          <div className="text-center mb-4">
+            <div
+              className={`inline-block px-4 py-2 rounded-full text-sm font-semibold ${
+                isMyTurn
+                  ? "bg-green-100 text-green-800"
+                  : "bg-amber-100 text-amber-700"
+              }`}
+            >
+              {isMyTurn
+                ? "Your turn — tap a card!"
+                : `${activePlayerName}'s turn...`}
+            </div>
+          </div>
+        )}
 
         {/* Progress */}
         <div className="mb-4">

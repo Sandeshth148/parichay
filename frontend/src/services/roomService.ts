@@ -163,13 +163,19 @@ export async function completeRoom(roomCode: string): Promise<void> {
 }
 
 export async function getMyRooms(userId: string): Promise<Room[]> {
-  const q = query(
-    collection(db!, "rooms"),
-    where("playerIds", "array-contains", userId),
-  );
-  const snap = await getDocs(q);
-  const rooms = snap.docs.map((d) => d.data() as Room);
-  return rooms
+  // Query both ways: new rooms use playerIds array-contains, old rooms only have hostUserId
+  const [byPlayerIds, byHost] = await Promise.all([
+    getDocs(query(collection(db!, "rooms"), where("playerIds", "array-contains", userId))),
+    getDocs(query(collection(db!, "rooms"), where("hostUserId", "==", userId))),
+  ]);
+
+  const roomMap = new Map<string, Room>();
+  [...byPlayerIds.docs, ...byHost.docs].forEach((d) => {
+    const r = d.data() as Room;
+    roomMap.set(r.id, r);
+  });
+
+  return Array.from(roomMap.values())
     .filter((r) => r.status !== "completed")
     .sort((a, b) => b.createdAt - a.createdAt);
 }
