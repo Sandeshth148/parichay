@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
-import { useGameStore } from '../store/gameStore';
-import { subscribeToRoom } from '../services/roomService';
+import { useEffect } from "react";
+import { useGameStore } from "../store/gameStore";
+import { subscribeToRoom } from "../services/roomService";
 
 export function useRoom(roomCode: string | undefined) {
   const room = useGameStore((state) => state.room);
@@ -14,14 +14,18 @@ export function useRoom(roomCode: string | undefined) {
     const unsubscribe = subscribeToRoom(roomCode, (updatedRoom) => {
       setRoom(updatedRoom);
 
-      // Initialize cards for the current level if not already set
       const cards = getCardsForLevel(updatedRoom.level);
       if (cards.length > 0) {
-        // Mark already-opened cards
         const openedSet = new Set(updatedRoom.openedCards);
+        const skippedSet = new Set(updatedRoom.skippedCards || []);
         const updatedCards = cards.map((c) => ({
           ...c,
-          opened: openedSet.has(c.id),
+          opened: openedSet.has(c.id) || skippedSet.has(c.id),
+          status: openedSet.has(c.id)
+            ? ("discussed" as const)
+            : skippedSet.has(c.id)
+              ? ("skipped" as const)
+              : ("unvisited" as const),
         }));
         setCards(updatedCards);
       }

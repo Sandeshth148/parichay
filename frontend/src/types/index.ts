@@ -7,9 +7,15 @@ export interface Room {
   id: string;
   hostUserId: string;
   players: Player[];
+  playerIds: string[];
   currentTurn: string;
   level: number;
   openedCards: number[];
+  skippedCards: number[];
+  levelProgress: Record<
+    string,
+    { openedCards: number[]; skippedCards: number[] }
+  >;
   status: "waiting" | "active" | "completed";
   createdAt: number;
 }
@@ -20,6 +26,7 @@ export interface Card {
   prompts: string[];
   opened: boolean;
   openedBy: string | null;
+  status?: "unvisited" | "discussed" | "skipped";
 }
 
 export interface Level {

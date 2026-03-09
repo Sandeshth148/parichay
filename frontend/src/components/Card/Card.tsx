@@ -9,15 +9,39 @@ interface CardProps {
 }
 
 export function Card({ card, isMyTurn, onFlip, onReview }: CardProps) {
+  const status = card.status ?? "unvisited";
+
   const handleClick = () => {
-    if (card.opened) {
-      onReview(card); // re-open in read-only mode
+    if (status === "discussed") {
+      onReview(card); // always view-only for discussed cards
+    } else if (status === "skipped") {
+      if (isMyTurn) {
+        onFlip(card); // active mode — can choose to discuss or re-skip
+      } else {
+        onReview(card); // view-only for non-current player
+      }
     } else if (isMyTurn) {
-      onFlip(card);
+      onFlip(card); // active mode for unvisited cards
     }
   };
 
-  const isClickable = card.opened || isMyTurn;
+  const isClickable = status !== "unvisited" || isMyTurn;
+
+  const backStyle =
+    status === "skipped"
+      ? "bg-orange-50 border-2 border-dashed border-orange-400"
+      : "bg-gradient-to-br from-green-50 to-amber-50 border-2 border-green-400";
+
+  const subLabel =
+    status === "skipped" ? (
+      <span className="text-[8px] sm:text-[10px] text-orange-500 mt-0.5 font-medium">
+        ↩ revisit
+      </span>
+    ) : (
+      <span className="text-[8px] sm:text-[10px] text-green-600 mt-0.5 font-medium">
+        ✓ reviewed
+      </span>
+    );
 
   return (
     <motion.div
@@ -32,7 +56,7 @@ export function Card({ card, isMyTurn, onFlip, onReview }: CardProps) {
         transition={{ duration: 0.6, ease: "easeInOut" }}
         style={{ transformStyle: "preserve-3d" }}
       >
-        {/* Front (face-down) */}
+        {/* Front (face-down / unvisited) */}
         <div
           className={`absolute inset-0 rounded-xl flex items-center justify-center text-3xl font-bold ${
             isMyTurn && !card.opened
@@ -44,15 +68,15 @@ export function Card({ card, isMyTurn, onFlip, onReview }: CardProps) {
           ?
         </div>
 
-        {/* Back (face-up) */}
+        {/* Back (face-up / discussed or skipped) */}
         <div
-          className="absolute inset-0 rounded-xl bg-gradient-to-br from-amber-100 to-orange-100 border-2 border-amber-300 flex flex-col items-center justify-center p-2 text-center shadow-lg"
+          className={`absolute inset-0 rounded-xl flex flex-col items-center justify-center p-1.5 text-center shadow-lg overflow-hidden ${backStyle}`}
           style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
         >
-          <span className="text-xs sm:text-sm font-semibold text-amber-900 leading-tight">
+          <span className="text-[9px] sm:text-[11px] font-semibold text-amber-900 leading-snug line-clamp-3 break-words w-full">
             {card.topic}
           </span>
-          <span className="text-[10px] text-amber-500 mt-1">tap to review</span>
+          {subLabel}
         </div>
       </motion.div>
     </motion.div>

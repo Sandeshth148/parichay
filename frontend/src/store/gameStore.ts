@@ -1,6 +1,6 @@
-import { create } from 'zustand';
-import type { Room, Card } from '../types';
-import { levels } from '../data/topics';
+import { create } from "zustand";
+import type { Room, Card } from "../types";
+import { levels } from "../data/topics";
 
 interface GameState {
   room: Room | null;
@@ -12,6 +12,7 @@ interface GameState {
   selectCard: (card: Card | null) => void;
   viewCard: (card: Card) => void;
   openCard: (cardId: number, userId: string) => void;
+  skipCard: (cardId: number, userId: string) => void;
   getCardsForLevel: (level: number) => Card[];
   reset: () => void;
 }
@@ -32,7 +33,18 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   openCard: (cardId, userId) => {
     const cards = get().cards.map((c) =>
-      c.id === cardId ? { ...c, opened: true, openedBy: userId } : c
+      c.id === cardId
+        ? { ...c, opened: true, openedBy: userId, status: "discussed" as const }
+        : c,
+    );
+    set({ cards, selectedCard: null, isViewingOnly: false });
+  },
+
+  skipCard: (cardId, userId) => {
+    const cards = get().cards.map((c) =>
+      c.id === cardId
+        ? { ...c, opened: true, openedBy: userId, status: "skipped" as const }
+        : c,
     );
     set({ cards, selectedCard: null, isViewingOnly: false });
   },
@@ -40,8 +52,9 @@ export const useGameStore = create<GameState>((set, get) => ({
   getCardsForLevel: (level) => {
     const levelData = levels.find((l) => l.id === level);
     if (!levelData) return [];
-    return levelData.cards.map((c) => ({ ...c }));
+    return levelData.cards.map((c) => ({ ...c, status: "unvisited" as const }));
   },
 
-  reset: () => set({ room: null, cards: [], selectedCard: null, isViewingOnly: false }),
+  reset: () =>
+    set({ room: null, cards: [], selectedCard: null, isViewingOnly: false }),
 }));

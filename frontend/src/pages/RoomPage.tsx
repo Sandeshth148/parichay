@@ -5,7 +5,7 @@ import { useGameStore } from "../store/gameStore";
 import { CardGrid } from "../components/CardGrid/CardGrid";
 import { PlayerPanel } from "../components/PlayerPanel/PlayerPanel";
 import { DiscussionModal } from "../components/DiscussionModal/DiscussionModal";
-import { advanceLevel, completeRoom, getRoom, goToLevel } from "../services/roomService";
+import { advanceLevel, completeRoom, goToLevel } from "../services/roomService";
 import { levels } from "../data/topics";
 import { Copy, Check, LogOut, ChevronRight, Trophy } from "lucide-react";
 import { useState } from "react";
@@ -17,9 +17,6 @@ export function RoomPage() {
   const room = useRoom(roomId);
   const user = useAuthStore((state) => state.user);
   const selectedCard = useGameStore((state) => state.selectedCard);
-  const setRoom = useGameStore((state) => state.setRoom);
-  const setCards = useGameStore((state) => state.setCards);
-  const getCardsForLevel = useGameStore((state) => state.getCardsForLevel);
   const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
   const [advancing, setAdvancing] = useState(false);
@@ -83,7 +80,9 @@ export function RoomPage() {
     (p) => p.id === room.currentTurn,
   )?.name;
 
-  const levelDone = room.openedCards.length >= 16;
+  const discussedCount = room.openedCards.length;
+  const skippedCount = (room.skippedCards || []).length;
+  const levelDone = discussedCount + skippedCount >= 16;
   const isLastLevel = room.level >= MAX_LEVEL;
   const currentLevel = levels.find((l) => l.id === room.level);
   const nextLevel = levels.find((l) => l.id === room.level + 1);
@@ -92,13 +91,7 @@ export function RoomPage() {
     if (!roomId) return;
     setAdvancing(true);
     await advanceLevel(roomId);
-    // Force-refresh store with updated room and new level's cards
-    const updatedRoom = await getRoom(roomId);
-    if (updatedRoom) {
-      setRoom(updatedRoom);
-      const newCards = getCardsForLevel(updatedRoom.level);
-      setCards(newCards);
-    }
+    // subscription handles setRoom + setCards with restored progress
     setAdvancing(false);
   };
 
@@ -112,12 +105,7 @@ export function RoomPage() {
     if (!roomId) return;
     setAdvancing(true);
     await goToLevel(roomId, level);
-    const updatedRoom = await getRoom(roomId);
-    if (updatedRoom) {
-      setRoom(updatedRoom);
-      const newCards = getCardsForLevel(updatedRoom.level);
-      setCards(newCards);
-    }
+    // subscription handles setRoom + setCards with restored progress
     setAdvancing(false);
   };
 
@@ -159,7 +147,8 @@ export function RoomPage() {
           ) : (
             <>
               <p className="text-amber-700 text-sm mb-6">
-                You have completed all {MAX_LEVEL} levels. This was a meaningful journey.
+                You have completed all {MAX_LEVEL} levels. This was a meaningful
+                journey.
               </p>
               <button
                 onClick={handleFinishGame}
@@ -204,7 +193,9 @@ export function RoomPage() {
       {/* Level quick-nav */}
       <div className="bg-amber-50 border-b border-amber-100 px-4 py-2">
         <div className="max-w-6xl mx-auto flex items-center gap-2 flex-wrap">
-          <span className="text-xs text-amber-500 font-medium shrink-0">Jump to:</span>
+          <span className="text-xs text-amber-500 font-medium shrink-0">
+            Jump to:
+          </span>
           {levels.map((l) => (
             <button
               key={l.id}
@@ -251,13 +242,27 @@ export function RoomPage() {
         {/* Progress */}
         <div className="mb-4">
           <div className="flex items-center justify-between text-xs text-amber-500 mb-1.5 px-1">
-            <span>{room.openedCards.length} / 16 discussed</span>
-            <span>Level {room.level} of {MAX_LEVEL}</span>
+            <span>
+              {discussedCount} discussed
+              {skippedCount > 0 && (
+                <span className="text-orange-400">
+                  , {skippedCount} skipped
+                </span>
+              )}{" "}
+              / 16
+            </span>
+            <span>
+              Level {room.level} of {MAX_LEVEL}
+            </span>
           </div>
-          <div className="h-1.5 bg-amber-200 rounded-full overflow-hidden">
+          <div className="h-1.5 bg-amber-200 rounded-full overflow-hidden flex">
             <div
-              className="h-full bg-amber-500 rounded-full transition-all duration-500"
-              style={{ width: `${(room.openedCards.length / 16) * 100}%` }}
+              className="h-full bg-amber-500 transition-all duration-500"
+              style={{ width: `${(discussedCount / 16) * 100}%` }}
+            />
+            <div
+              className="h-full bg-orange-400 transition-all duration-500"
+              style={{ width: `${(skippedCount / 16) * 100}%` }}
             />
           </div>
         </div>

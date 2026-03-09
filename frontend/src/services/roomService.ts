@@ -4,6 +4,10 @@ import {
   setDoc,
   updateDoc,
   onSnapshot,
+  collection,
+  query,
+  where,
+  getDocs,
 } from "firebase/firestore";
 import { db } from "./firebase";
 import { auth } from "./firebase";
@@ -27,9 +31,12 @@ export async function createRoom(name: string): Promise<Room> {
     id,
     hostUserId: user.uid,
     players: [{ id: user.uid, name }],
+    playerIds: [user.uid],
     currentTurn: user.uid,
     level: 1,
     openedCards: [],
+    skippedCards: [],
+    levelProgress: {},
     status: "waiting",
     createdAt: Date.now(),
   };
@@ -53,10 +60,12 @@ export async function joinRoom(roomCode: string, name: string): Promise<Room> {
   const updated: Room = {
     ...room,
     players: [...room.players, { id: user.uid, name }],
+    playerIds: [...(room.playerIds || [room.hostUserId]), user.uid],
     status: "active",
   };
   await updateDoc(ref, {
     players: updated.players,
+    playerIds: updated.playerIds,
     status: "active",
   });
   return updated;
@@ -79,33 +88,88 @@ export function subscribeToRoom(
 export async function updateRoomCards(
   roomCode: string,
   openedCards: number[],
+  skippedCards: number[],
   currentTurn: string,
 ): Promise<void> {
-  await updateDoc(doc(db!, "rooms", roomCode), { openedCards, currentTurn });
+  await updateDoc(doc(db!, "rooms", roomCode), {
+    openedCards,
+    skippedCards,
+    currentTurn,
+  });
 }
 
 export async function advanceLevel(roomCode: string): Promise<void> {
   const snap = await getDoc(doc(db!, "rooms", roomCode));
   if (!snap.exists()) return;
   const room = snap.data() as Room;
-  await updateDoc(doc(db!, "rooms", roomCode), {
-    level: room.level + 1,
+  const levelKey = String(room.level);
+  const savedProgress = room.levelProgress || {};
+
+  // Save current level's progress
+  savedProgress[levelKey] = {
+    openedCards: room.openedCards,
+    skippedCards: room.skippedCards || [],
+  };
+
+  const nextLevel = room.level + 1;
+  const nextKey = String(nextLevel);
+  const nextProgress = savedProgress[nextKey] || {
     openedCards: [],
+    skippedCards: [],
+  };
+
+  await updateDoc(doc(db!, "rooms", roomCode), {
+    level: nextLevel,
+    openedCards: nextProgress.openedCards,
+    skippedCards: nextProgress.skippedCards,
+    levelProgress: savedProgress,
     currentTurn: room.players[0].id,
   });
 }
 
-export async function goToLevel(roomCode: string, level: number): Promise<void> {
+export async function goToLevel(
+  roomCode: string,
+  level: number,
+): Promise<void> {
   const snap = await getDoc(doc(db!, "rooms", roomCode));
   if (!snap.exists()) return;
   const room = snap.data() as Room;
+  const currentKey = String(room.level);
+  const savedProgress = room.levelProgress || {};
+
+  // Save current level's progress before jumping
+  savedProgress[currentKey] = {
+    openedCards: room.openedCards,
+    skippedCards: room.skippedCards || [],
+  };
+
+  const targetKey = String(level);
+  const targetProgress = savedProgress[targetKey] || {
+    openedCards: [],
+    skippedCards: [],
+  };
+
   await updateDoc(doc(db!, "rooms", roomCode), {
     level,
-    openedCards: [],
+    openedCards: targetProgress.openedCards,
+    skippedCards: targetProgress.skippedCards,
+    levelProgress: savedProgress,
     currentTurn: room.players[0].id,
   });
 }
 
 export async function completeRoom(roomCode: string): Promise<void> {
   await updateDoc(doc(db!, "rooms", roomCode), { status: "completed" });
+}
+
+export async function getMyRooms(userId: string): Promise<Room[]> {
+  const q = query(
+    collection(db!, "rooms"),
+    where("playerIds", "array-contains", userId),
+  );
+  const snap = await getDocs(q);
+  const rooms = snap.docs.map((d) => d.data() as Room);
+  return rooms
+    .filter((r) => r.status !== "completed")
+    .sort((a, b) => b.createdAt - a.createdAt);
 }

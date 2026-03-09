@@ -1,27 +1,38 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../store/authStore';
-import { createRoom, joinRoom } from '../services/roomService';
-import { LogOut, Plus, ArrowRight } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../store/authStore";
+import { createRoom, joinRoom, getMyRooms } from "../services/roomService";
+import type { Room } from "../types";
+import { LogOut, Plus, ArrowRight, PlayCircle } from "lucide-react";
+import { levels } from "../data/topics";
 
 export function DashboardPage() {
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
   const navigate = useNavigate();
 
-  const [roomCode, setRoomCode] = useState('');
+  const [roomCode, setRoomCode] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
+  const [myRooms, setMyRooms] = useState<Room[]>([]);
+
+  useEffect(() => {
+    if (!user) return;
+    getMyRooms(user.uid)
+      .then(setMyRooms)
+      .catch(() => setMyRooms([]));
+  }, [user]);
 
   const handleCreateRoom = async () => {
     if (!user) return;
     setLoading(true);
-    setError('');
+    setError("");
     try {
       const room = await createRoom(user.name);
       navigate(`/room/${room.id}`);
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Failed to create room';
+      const message =
+        err instanceof Error ? err.message : "Failed to create room";
       setError(message);
     } finally {
       setLoading(false);
@@ -32,12 +43,13 @@ export function DashboardPage() {
     e.preventDefault();
     if (!user || !roomCode.trim()) return;
     setLoading(true);
-    setError('');
+    setError("");
     try {
       await joinRoom(roomCode.trim().toUpperCase(), user.name);
       navigate(`/room/${roomCode.trim().toUpperCase()}`);
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Failed to join room';
+      const message =
+        err instanceof Error ? err.message : "Failed to join room";
       setError(message);
     } finally {
       setLoading(false);
@@ -46,7 +58,7 @@ export function DashboardPage() {
 
   const handleLogout = async () => {
     await logout();
-    navigate('/');
+    navigate("/");
   };
 
   return (
@@ -71,6 +83,51 @@ export function DashboardPage() {
           </button>
         </div>
 
+        {/* Resume active rooms */}
+        {myRooms.length > 0 && (
+          <div className="mb-6">
+            <h2 className="text-sm font-semibold text-amber-700 mb-3 uppercase tracking-wide">
+              Resume a Previous Session
+            </h2>
+            <div className="space-y-2">
+              {myRooms.map((r) => {
+                const partner = r.players.find((p) => p.id !== user?.uid);
+                const levelTitle =
+                  levels.find((l) => l.id === r.level)?.title ??
+                  `Level ${r.level}`;
+                const discussed = r.openedCards?.length ?? 0;
+                const skipped = (r.skippedCards || []).length;
+                const statusLabel =
+                  r.status === "waiting"
+                    ? "Waiting for partner"
+                    : `L${r.level} · ${discussed} discussed${skipped > 0 ? `, ${skipped} skipped` : ""}`;
+                return (
+                  <button
+                    key={r.id}
+                    onClick={() => navigate(`/room/${r.id}`)}
+                    className="w-full bg-white rounded-xl shadow-sm border border-amber-200 px-4 py-3 flex items-center gap-3 hover:border-amber-400 hover:shadow-md transition-all text-left"
+                  >
+                    <PlayCircle className="w-8 h-8 text-amber-500 shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold text-amber-900 truncate">
+                        {partner
+                          ? `With ${partner.name}`
+                          : "Waiting for partner"}
+                      </p>
+                      <p className="text-xs text-amber-500 truncate">
+                        {levelTitle} · {statusLabel}
+                      </p>
+                    </div>
+                    <code className="text-xs font-mono text-amber-400 shrink-0">
+                      {r.id}
+                    </code>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         {error && (
           <div className="bg-red-50 text-red-700 px-4 py-3 rounded-lg mb-6 text-sm">
             {error}
@@ -94,7 +151,7 @@ export function DashboardPage() {
               disabled={loading}
               className="w-full bg-amber-600 text-white py-3 rounded-lg font-semibold hover:bg-amber-700 transition-colors disabled:opacity-50"
             >
-              {loading ? 'Creating...' : 'Create New Room'}
+              {loading ? "Creating..." : "Create New Room"}
             </button>
           </div>
 
@@ -124,7 +181,7 @@ export function DashboardPage() {
                 disabled={loading || !roomCode.trim()}
                 className="w-full bg-rose-500 text-white py-3 rounded-lg font-semibold hover:bg-rose-600 transition-colors disabled:opacity-50"
               >
-                {loading ? 'Joining...' : 'Join Room'}
+                {loading ? "Joining..." : "Join Room"}
               </button>
             </form>
           </div>

@@ -2,30 +2,55 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useGameStore } from "../../store/gameStore";
 import { useAuthStore } from "../../store/authStore";
 import { updateRoomCards } from "../../services/roomService";
-import { X, MessageCircle, Eye } from "lucide-react";
+import { X, MessageCircle, Eye, SkipForward } from "lucide-react";
 
 export function DiscussionModal() {
   const selectedCard = useGameStore((state) => state.selectedCard);
   const isViewingOnly = useGameStore((state) => state.isViewingOnly);
   const room = useGameStore((state) => state.room);
   const openCard = useGameStore((state) => state.openCard);
+  const skipCard = useGameStore((state) => state.skipCard);
   const selectCard = useGameStore((state) => state.selectCard);
   const user = useAuthStore((state) => state.user);
 
   if (!selectedCard || !room || !user) return null;
 
+  const nextTurn = () => {
+    const other = room.players.find((p) => p.id !== room.currentTurn);
+    return other?.id || room.currentTurn;
+  };
+
   const handleDone = async () => {
     openCard(selectedCard.id, user.uid);
-    const updatedOpenedCards = [...room.openedCards, selectedCard.id];
-    const otherPlayer = room.players.find((p) => p.id !== room.currentTurn);
-    const nextTurn = otherPlayer?.id || room.currentTurn;
-    await updateRoomCards(room.id, updatedOpenedCards, nextTurn);
+    // move from skipped → discussed if it was skipped before
+    const updatedOpened = [
+      ...room.openedCards.filter((id) => id !== selectedCard.id),
+      selectedCard.id,
+    ];
+    const updatedSkipped = (room.skippedCards || []).filter(
+      (id) => id !== selectedCard.id,
+    );
+    await updateRoomCards(room.id, updatedOpened, updatedSkipped, nextTurn());
+  };
+
+  const handleSkip = async () => {
+    skipCard(selectedCard.id, user.uid);
+    // move from discussed → skipped if it was discussed before (edge case)
+    const updatedSkipped = [
+      ...(room.skippedCards || []).filter((id) => id !== selectedCard.id),
+      selectedCard.id,
+    ];
+    const updatedOpened = room.openedCards.filter(
+      (id) => id !== selectedCard.id,
+    );
+    await updateRoomCards(room.id, updatedOpened, updatedSkipped, nextTurn());
   };
 
   const handleClose = () => {
     selectCard(null);
   };
 
+  const isRevisiting = selectedCard.status === "skipped";
   return (
     <AnimatePresence>
       <motion.div
@@ -47,6 +72,8 @@ export function DiscussionModal() {
             <div className="flex items-center gap-2">
               {isViewingOnly ? (
                 <Eye className="w-5 h-5 text-amber-500" />
+              ) : isRevisiting ? (
+                <SkipForward className="w-5 h-5 text-orange-500" />
               ) : (
                 <MessageCircle className="w-5 h-5 text-amber-600" />
               )}
@@ -54,9 +81,17 @@ export function DiscussionModal() {
                 <h3 className="text-base font-bold text-amber-900 leading-tight">
                   {selectedCard.topic}
                 </h3>
-                {isViewingOnly && (
-                  <p className="text-xs text-amber-500">
-                    Read-only — already discussed
+                {isViewingOnly && selectedCard.status === "skipped" && (
+                  <p className="text-xs text-orange-500">
+                    Skipped — revisit on your turn
+                  </p>
+                )}
+                {isViewingOnly && selectedCard.status === "discussed" && (
+                  <p className="text-xs text-amber-500">Already discussed</p>
+                )}
+                {!isViewingOnly && isRevisiting && (
+                  <p className="text-xs text-orange-500">
+                    Revisiting skipped card
                   </p>
                 )}
               </div>
@@ -96,10 +131,10 @@ export function DiscussionModal() {
             ) : (
               <div className="flex gap-3">
                 <button
-                  onClick={handleClose}
-                  className="flex-1 border border-amber-300 text-amber-700 py-3 rounded-lg font-semibold hover:bg-amber-50 transition-colors min-h-[44px]"
+                  onClick={handleSkip}
+                  className="flex-1 border border-orange-300 text-orange-600 py-3 rounded-lg font-semibold hover:bg-orange-50 transition-colors min-h-[44px]"
                 >
-                  Skip
+                  Skip ↩
                 </button>
                 <button
                   onClick={handleDone}
