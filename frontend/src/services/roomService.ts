@@ -85,6 +85,13 @@ export function subscribeToRoom(
   });
 }
 
+export async function setCurrentCard(
+  roomCode: string,
+  cardId: number | null,
+): Promise<void> {
+  await updateDoc(doc(db!, "rooms", roomCode), { currentCardId: cardId });
+}
+
 export async function updateRoomCards(
   roomCode: string,
   openedCards: number[],
@@ -95,6 +102,7 @@ export async function updateRoomCards(
     openedCards,
     skippedCards,
     currentTurn,
+    currentCardId: null,
   });
 }
 

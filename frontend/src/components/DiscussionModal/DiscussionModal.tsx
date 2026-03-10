@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useGameStore } from "../../store/gameStore";
 import { useAuthStore } from "../../store/authStore";
-import { updateRoomCards } from "../../services/roomService";
+import { updateRoomCards, setCurrentCard } from "../../services/roomService";
 import { X, MessageCircle, Eye, SkipForward } from "lucide-react";
 
 export function DiscussionModal() {
@@ -47,7 +47,10 @@ export function DiscussionModal() {
   };
 
   const handleClose = () => {
+    const myTurn = room?.currentTurn === user?.uid;
     selectCard(null);
+    // If it's my turn and I'm closing without action, clear currentCardId so partner's auto-view closes
+    if (myTurn && room) void setCurrentCard(room.id, null);
   };
 
   const isRevisiting = selectedCard.status === "skipped";

@@ -1,5 +1,6 @@
 import { useGameStore } from "../../store/gameStore";
 import { useAuthStore } from "../../store/authStore";
+import { setCurrentCard } from "../../services/roomService";
 import { Card } from "../Card/Card";
 import type { Card as CardType } from "../../types";
 
@@ -14,6 +15,7 @@ export function CardGrid() {
 
   const handleFlip = (card: CardType) => {
     selectCard(card); // active mode — shows Discussed/Skip
+    if (room?.id) void setCurrentCard(room.id, card.id);
   };
 
   const handleReview = (card: CardType) => {

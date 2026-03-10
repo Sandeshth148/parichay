@@ -9,6 +9,7 @@ export interface Room {
   players: Player[];
   playerIds: string[];
   currentTurn: string;
+  currentCardId?: number | null;
   level: number;
   openedCards: number[];
   skippedCards: number[];

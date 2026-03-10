@@ -7,12 +7,14 @@ interface GameState {
   cards: Card[];
   selectedCard: Card | null;
   isViewingOnly: boolean;
+  isAutoOpened: boolean;
   setRoom: (room: Room) => void;
   setCards: (cards: Card[]) => void;
   /** Atomically syncs room + derived cards in one set() call — use this from Firestore callbacks */
   syncRoom: (room: Room) => void;
   selectCard: (card: Card | null) => void;
-  viewCard: (card: Card) => void;
+  viewCard: (card: Card, auto?: boolean) => void;
+  closeAuto: () => void;
   openCard: (cardId: number, userId: string) => void;
   skipCard: (cardId: number, userId: string) => void;
   getCardsForLevel: (level: number) => Card[];
@@ -24,6 +26,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   cards: [],
   selectedCard: null,
   isViewingOnly: false,
+  isAutoOpened: false,
 
   setRoom: (room) => set({ room }),
 
@@ -49,9 +52,16 @@ export const useGameStore = create<GameState>((set, get) => ({
     set({ room, cards });
   },
 
-  selectCard: (card) => set({ selectedCard: card, isViewingOnly: false }),
+  selectCard: (card) => set({ selectedCard: card, isViewingOnly: false, isAutoOpened: false }),
 
-  viewCard: (card) => set({ selectedCard: card, isViewingOnly: true }),
+  viewCard: (card, auto) =>
+    set({ selectedCard: card, isViewingOnly: true, isAutoOpened: auto ?? false }),
+
+  closeAuto: () => {
+    if (get().isAutoOpened) {
+      set({ selectedCard: null, isViewingOnly: false, isAutoOpened: false });
+    }
+  },
 
   openCard: (cardId, userId) => {
     const cards = get().cards.map((c) =>
@@ -78,5 +88,5 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   reset: () =>
-    set({ room: null, cards: [], selectedCard: null, isViewingOnly: false }),
+    set({ room: null, cards: [], selectedCard: null, isViewingOnly: false, isAutoOpened: false }),
 }));
