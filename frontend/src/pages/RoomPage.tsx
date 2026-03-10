@@ -17,6 +17,7 @@ export function RoomPage() {
   const room = useRoom(roomId);
   const user = useAuthStore((state) => state.user);
   const selectedCard = useGameStore((state) => state.selectedCard);
+  const cards = useGameStore((state) => state.cards);
   const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
   const [advancing, setAdvancing] = useState(false);
@@ -82,7 +83,7 @@ export function RoomPage() {
 
   const discussedCount = room.openedCards.length;
   const skippedCount = (room.skippedCards || []).length;
-  const levelDone = discussedCount + skippedCount >= 16;
+  const levelDone = discussedCount + skippedCount >= cards.length;
   const isLastLevel = room.level >= MAX_LEVEL;
   const currentLevel = levels.find((l) => l.id === room.level);
   const nextLevel = levels.find((l) => l.id === room.level + 1);
