@@ -9,6 +9,8 @@ interface GameState {
   isViewingOnly: boolean;
   setRoom: (room: Room) => void;
   setCards: (cards: Card[]) => void;
+  /** Atomically syncs room + derived cards in one set() call — use this from Firestore callbacks */
+  syncRoom: (room: Room) => void;
   selectCard: (card: Card | null) => void;
   viewCard: (card: Card) => void;
   openCard: (cardId: number, userId: string) => void;
@@ -26,6 +28,26 @@ export const useGameStore = create<GameState>((set, get) => ({
   setRoom: (room) => set({ room }),
 
   setCards: (cards) => set({ cards }),
+
+  syncRoom: (room) => {
+    const levelData = levels.find((l) => l.id === room.level);
+    if (!levelData) {
+      set({ room });
+      return;
+    }
+    const openedSet = new Set(room.openedCards);
+    const skippedSet = new Set(room.skippedCards || []);
+    const cards = levelData.cards.map((c) => ({
+      ...c,
+      opened: openedSet.has(c.id) || skippedSet.has(c.id),
+      status: openedSet.has(c.id)
+        ? ("discussed" as const)
+        : skippedSet.has(c.id)
+          ? ("skipped" as const)
+          : ("unvisited" as const),
+    }));
+    set({ room, cards });
+  },
 
   selectCard: (card) => set({ selectedCard: card, isViewingOnly: false }),
 
