@@ -64,11 +64,11 @@ export const levels: Level[] = [
       },
       {
         id: 6,
-        topic: "Sleep Habits",
+        topic: "Spending Style",
         prompts: [
-          "What time do you usually go to bed?",
-          "Are you a light sleeper or a heavy sleeper?",
-          "How do you feel about screen time before bed?",
+          "Are you more of a saver or a spender — how do you feel about a partner who is the opposite?",
+          "Do you follow a monthly budget, or do you spend based on how you feel in the moment?",
+          "What is one thing you don't mind splurging on, and one area where you are deliberately frugal?",
         ],
         opened: false,
         openedBy: null,
@@ -119,11 +119,11 @@ export const levels: Level[] = [
       },
       {
         id: 11,
-        topic: "Pet Preferences",
+        topic: "Post-Marriage Daily Life",
         prompts: [
-          "Do you like pets? Which ones?",
-          "Would you want pets in your home?",
-          "How do you feel about the responsibility of pet care?",
+          "How do you imagine splitting household chores — strictly equal, or based on availability and strengths?",
+          "Who cooks on weekday mornings when both of you have early office commutes?",
+          "How much time do you realistically picture having for each other on a regular working day?",
         ],
         opened: false,
         openedBy: null,
@@ -561,11 +561,11 @@ export const levels: Level[] = [
     cards: [
       {
         id: 1,
-        topic: "Where You Want to Live",
+        topic: "Home After Marriage",
         prompts: [
-          "Which city or country do you see yourself in five years from now?",
-          "Would you ever move abroad for work or lifestyle?",
-          "Is living near family a priority for you?",
+          "Which city do you see yourselves settling in — Bangalore, your hometown, or somewhere else entirely?",
+          "Would you prefer your own independent home straight away, or are you open to staying with parents for a while?",
+          "How close do you want to live to your parents, and how close to your partner's parents?",
         ],
         opened: false,
         openedBy: null,
@@ -638,11 +638,11 @@ export const levels: Level[] = [
       },
       {
         id: 8,
-        topic: "Retirement Vision",
+        topic: "Dream Wedding",
         prompts: [
-          "At what age do you hope to retire?",
-          "What does an ideal retirement life look like for you?",
-          "How are you currently planning for retirement?",
+          "How do you picture your wedding — a big traditional celebration with the whole family, or something intimate and meaningful?",
+          "Who should have the final say on wedding decisions — the couple, or the families?",
+          "Which rituals and customs are non-negotiable for you, and where would you be happy to simplify?",
         ],
         opened: false,
         openedBy: null,
@@ -671,11 +671,11 @@ export const levels: Level[] = [
       },
       {
         id: 11,
-        topic: "Spiritual Growth",
+        topic: "Earning Together or Apart",
         prompts: [
-          "Do you want to grow spiritually as a couple?",
-          "Would you raise children in a religious tradition?",
-          "How do you handle differences in spiritual beliefs?",
+          "Do you expect both partners to work after marriage, or are you comfortable with one being the primary earner?",
+          "How would you feel if your partner wanted to take a career break to raise children?",
+          "If financial pressure arose, how would you decide who steps up — and have you thought through what that would look like?",
         ],
         opened: false,
         openedBy: null,
@@ -704,11 +704,11 @@ export const levels: Level[] = [
       },
       {
         id: 14,
-        topic: "Giving Back",
+        topic: "In-Laws in Everyday Life",
         prompts: [
-          "How important is charity or community involvement to you?",
-          "Would you raise children to value giving?",
-          "Do you currently contribute to any cause?",
+          "How often do you expect your partner to call your parents — and how often will you call theirs?",
+          "If your parents called every single day to check in, how comfortable would your partner need to be with that?",
+          "Where is the line between keeping parents involved and giving your new family its own space?",
         ],
         opened: false,
         openedBy: null,

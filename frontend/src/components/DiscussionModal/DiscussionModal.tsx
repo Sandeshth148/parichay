@@ -85,7 +85,9 @@ export function DiscussionModal() {
                 </h3>
                 {readOnly && selectedCard.status === "skipped" && (
                   <p className="text-xs text-orange-500">
-                    {isMyTurn ? "Revisit on your turn" : "Skipped — viewing only"}
+                    {isMyTurn
+                      ? "Revisit on your turn"
+                      : "Skipped — viewing only"}
                   </p>
                 )}
                 {readOnly && selectedCard.status === "discussed" && (
