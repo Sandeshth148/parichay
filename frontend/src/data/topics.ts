@@ -4,7 +4,8 @@ export const levels: Level[] = [
   {
     id: 1,
     title: "Level 1 — Basics",
-    description: "Get to know each other's daily life, habits, and preferences. The basics matter more than you think.",
+    description:
+      "Get to know each other's daily life, habits, and preferences. The basics matter more than you think.",
     cards: [
       {
         id: 1,
@@ -187,7 +188,8 @@ export const levels: Level[] = [
   {
     id: 2,
     title: "Level 2 — Values",
-    description: "Explore what drives you — your values, beliefs, and what you stand for.",
+    description:
+      "Explore what drives you — your values, beliefs, and what you stand for.",
     cards: [
       {
         id: 1,
@@ -370,7 +372,8 @@ export const levels: Level[] = [
   {
     id: 3,
     title: "Level 3 — Life & Compatibility",
-    description: "Understanding how you handle real life — stress, boundaries, trust, and compatibility.",
+    description:
+      "Understanding how you handle real life — stress, boundaries, trust, and compatibility.",
     cards: [
       {
         id: 1,
@@ -553,7 +556,8 @@ export const levels: Level[] = [
   {
     id: 4,
     title: "Level 4 — Future & Family",
-    description: "The big decisions — children, finances, family, and where life is headed.",
+    description:
+      "The big decisions — children, finances, family, and where life is headed.",
     cards: [
       {
         id: 1,
@@ -736,7 +740,8 @@ export const levels: Level[] = [
   {
     id: 5,
     title: "Level 5 — Deep Compatibility",
-    description: "The deepest layer — fears, healing, vulnerability, and why you\u2019re here.",
+    description:
+      "The deepest layer — fears, healing, vulnerability, and why you\u2019re here.",
     cards: [
       {
         id: 1,
@@ -919,180 +924,181 @@ export const levels: Level[] = [
   {
     id: 6,
     title: "Level 6 — Roots & Traditions",
-    description: "Explore culture, family customs, and the South Indian Brahmin traditions that shape who you are — and who you want to be together.",
+    description:
+      "Explore your cultural backgrounds, family customs, and the values your upbringing shaped — and how they'll shape your life together.",
     cards: [
       {
         id: 1,
-        topic: "Horoscope Matching",
+        topic: "Family Traditions",
         prompts: [
-          "How much importance do you give to horoscope (janam kundali) compatibility?",
-          "Would you proceed with a match if horoscopes don't fully align?",
-          "How much say do you want astrology to have in major life decisions?",
+          "Which family traditions are most important to you?",
+          "Are there any traditions you want to carry forward into your own home?",
+          "How do you feel when a tradition you value is not shared by your partner?",
         ],
         opened: false,
         openedBy: null,
       },
       {
         id: 2,
-        topic: "Gothra & Sub-caste",
+        topic: "Religion & Spirituality",
         prompts: [
-          "How important is gothra matching to you personally?",
-          "How do your parents feel about same-gothra relationships?",
-          "Where do you draw the line between tradition and personal choice?",
+          "How does religion or spirituality feature in your daily life?",
+          "Would you want to raise children within a specific faith or tradition?",
+          "How open are you to your partner practising a different religion?",
         ],
         opened: false,
         openedBy: null,
       },
       {
         id: 3,
-        topic: "Vegetarian Lifestyle",
+        topic: "Dietary Preferences",
         prompts: [
-          "Are you strictly vegetarian? Would you expect your partner to be?",
-          "How do you feel about non-vegetarian food being cooked in the home?",
-          "How would you handle dietary differences with your partner or in-laws?",
+          "Do you follow any dietary restrictions — vegetarian, vegan, halal, kosher?",
+          "How important is it that your partner shares your dietary habits?",
+          "How would you navigate different food preferences at home?",
         ],
         opened: false,
         openedBy: null,
       },
       {
         id: 4,
-        topic: "Daily Puja & Rituals",
+        topic: "Cultural Identity",
         prompts: [
-          "Do you do daily puja or prayer at home? How important is it to you?",
-          "Would you expect your partner to participate in religious rituals?",
-          "How would you incorporate traditions if both partners have different practices?",
+          "How strongly do you identify with your cultural background?",
+          "What parts of your heritage do you actively celebrate or practice?",
+          "How do you feel about a partner who has a very different cultural background?",
         ],
         opened: false,
         openedBy: null,
       },
       {
         id: 5,
-        topic: "Joint Family Expectations",
+        topic: "Joint vs. Nuclear Family",
         prompts: [
-          "What is your expectation about living with or near in-laws after marriage?",
-          "How do you imagine managing household decisions with in-laws present?",
-          "Have you seen joint families work well? What made it work?",
+          "Do you see yourself living with or very near your parents after marriage?",
+          "How much say should parents and in-laws have in a couple's decisions?",
+          "How would you handle conflict between your partner and your family?",
         ],
         opened: false,
         openedBy: null,
       },
       {
         id: 6,
-        topic: "Wedding Customs",
+        topic: "Wedding Preferences",
         prompts: [
-          "Do you prefer a traditional South Indian Brahmin wedding or a smaller, modern ceremony?",
-          "How do you feel about the role of rituals like naandi, muhurtham, and kashi yatra?",
-          "Who should have the final say on wedding decisions — the couple or the families?",
+          "Do you prefer a big traditional wedding or a small intimate ceremony?",
+          "How much say should each family have in wedding decisions?",
+          "Are there rituals or customs that are non-negotiable for you?",
         ],
         opened: false,
         openedBy: null,
       },
       {
         id: 7,
-        topic: "Language & Mother Tongue",
+        topic: "Language & Heritage",
         prompts: [
-          "What is your mother tongue, and how important is it to you?",
-          "Would you want your children to learn and speak the mother tongue?",
-          "How do you feel about marrying someone from a different South Indian language background?",
+          "How important is your mother tongue to your sense of identity?",
+          "Would you want your children to speak your native language?",
+          "How do you feel about a household where multiple languages are spoken?",
         ],
         opened: false,
         openedBy: null,
       },
       {
         id: 8,
-        topic: "Regional Identity",
+        topic: "Festivals & Celebrations",
         prompts: [
-          "Do you identify more with your state (Tamil Nadu, Karnataka, Andhra, etc.) or as broadly South Indian?",
-          "Do cultural differences between Telugu, Tamil, Kannada Brahmins matter to you?",
-          "How open are your parents to a match from a different South Indian community?",
+          "Which festivals are non-negotiable for you to celebrate?",
+          "Would you adopt your partner's family's festival traditions?",
+          "How would you balance obligations when both families celebrate differently?",
         ],
         opened: false,
         openedBy: null,
       },
       {
         id: 9,
-        topic: "Festivals & Celebrations",
+        topic: "Community & Belonging",
         prompts: [
-          "Which festivals are non-negotiable for you to celebrate?",
-          "Would you be comfortable adopting your partner's family's festival traditions?",
-          "How do you balance festive obligations when both families have expectations?",
+          "How important is being part of a cultural or religious community to you?",
+          "Would you want to be active in a community organisation or place of worship?",
+          "How does your sense of belonging shape your expectations of a partner?",
         ],
         opened: false,
         openedBy: null,
       },
       {
         id: 10,
-        topic: "Dowry & Finances",
+        topic: "Family Approval",
         prompts: [
-          "How do you feel about the tradition of dowry or gifts exchanged in marriages?",
-          "What is your family's expectation around financial exchanges at the time of marriage?",
-          "How would you handle family pressure around money and gifts?",
+          "How much does your family's approval of your partner matter to you?",
+          "What would you do if your family strongly disapproved of your choice?",
+          "Where is the line between honouring family wishes and living your own life?",
         ],
         opened: false,
         openedBy: null,
       },
       {
         id: 11,
-        topic: "Children's Upbringing",
+        topic: "Passing Culture to Children",
         prompts: [
-          "Would you want your children to follow Brahmin traditions and practices?",
-          "How important is it that your children know Sanskrit shlokas or classical arts?",
-          "How would you balance modern education with cultural upbringing?",
+          "What cultural values or practices do you want to pass on to your children?",
+          "How would you handle it if your children rejected the traditions you raised them with?",
+          "How would you merge two cultural backgrounds in raising a child?",
         ],
         opened: false,
         openedBy: null,
       },
       {
         id: 12,
-        topic: "Temple & Spiritual Practice",
+        topic: "Traditions You Would Let Go",
         prompts: [
-          "How regularly do you visit temples?",
-          "How important is it to you that your partner shares your level of spiritual interest?",
-          "Do you believe in specific deities or family kula devatas?",
+          "Are there customs or traditions from your upbringing you would not carry forward?",
+          "What beliefs did you grow up with that you have since questioned?",
+          "How do you navigate letting go of a tradition while respecting those who hold it?",
         ],
         opened: false,
         openedBy: null,
       },
       {
         id: 13,
-        topic: "Career vs. Tradition",
+        topic: "Cross-Cultural Openness",
         prompts: [
-          "How do you balance career ambition with family and cultural expectations?",
-          "Have you ever felt pressure from your family to make a decision against your career goals?",
-          "How would you handle it if your partner's career clashes with family traditions?",
+          "How open are you to adopting customs from your partner's culture?",
+          "Have you ever celebrated a festival or followed a tradition not yours? How did it feel?",
+          "What would a truly shared cultural life look like for you both?",
         ],
         opened: false,
         openedBy: null,
       },
       {
         id: 14,
-        topic: "Caste & Community Pressure",
+        topic: "Family Pressure vs. Personal Choice",
         prompts: [
-          "How much pressure do you feel from family or community around caste-based marriage?",
-          "Would you consider a love marriage outside the Brahmin community?",
-          "How would you handle family disapproval of your chosen partner?",
+          "Have you ever felt pulled between what your family wanted and what you wanted?",
+          "How do you make decisions when family expectations conflict with your values?",
+          "How would you support a partner facing pressure from their own family?",
         ],
         opened: false,
         openedBy: null,
       },
       {
         id: 15,
-        topic: "Traditional Symbols",
+        topic: "Rituals at Home",
         prompts: [
-          "How important are traditional symbols like mangalsutra, kumkum, and bangles to you?",
-          "Would you expect your partner to wear them daily or only on occasions?",
-          "How do you feel about partners who prefer a more modern expression of being married?",
+          "Do you want regular rituals or practices — prayer, meditation, family dinners — as part of home life?",
+          "How important is it that your partner participates in your household rituals?",
+          "How would you create shared rituals if you each come from different backgrounds?",
         ],
         opened: false,
         openedBy: null,
       },
       {
         id: 16,
-        topic: "Our Shared Foundation",
+        topic: "Finding Common Ground",
         prompts: [
           "Which traditions from your upbringing do you absolutely want to carry forward?",
-          "Which traditions are you willing to let go of or adapt for your partner?",
-          "What does home mean to you — as a South Indian, as a Brahmin, and as yourself?",
+          "What are you willing to adapt or let go of for your partner?",
+          "What does 'home' mean to you — culturally, spiritually, and personally?",
         ],
         opened: false,
         openedBy: null,

@@ -48,10 +48,10 @@ export function Card({ card, isMyTurn, onFlip, onReview }: CardProps) {
       className={`perspective-[1000px] ${isClickable ? "cursor-pointer" : "cursor-not-allowed"}`}
       whileHover={isClickable ? { scale: 1.05 } : {}}
       whileTap={isClickable ? { scale: 0.95 } : {}}
+      onClick={handleClick}
     >
       <motion.div
         className="relative w-full aspect-square"
-        onClick={handleClick}
         animate={{ rotateY: card.opened ? 180 : 0 }}
         transition={{ duration: 0.6, ease: "easeInOut" }}
         style={{ transformStyle: "preserve-3d" }}

@@ -51,6 +51,8 @@ export function DiscussionModal() {
   };
 
   const isRevisiting = selectedCard.status === "skipped";
+  const isMyTurn = room?.currentTurn === user?.uid;
+  const readOnly = isViewingOnly || !isMyTurn;
   return (
     <AnimatePresence>
       <motion.div
@@ -70,7 +72,7 @@ export function DiscussionModal() {
           {/* Header */}
           <div className="flex items-center justify-between p-5 border-b border-amber-100">
             <div className="flex items-center gap-2">
-              {isViewingOnly ? (
+              {readOnly ? (
                 <Eye className="w-5 h-5 text-amber-500" />
               ) : isRevisiting ? (
                 <SkipForward className="w-5 h-5 text-orange-500" />
@@ -81,15 +83,15 @@ export function DiscussionModal() {
                 <h3 className="text-base font-bold text-amber-900 leading-tight">
                   {selectedCard.topic}
                 </h3>
-                {isViewingOnly && selectedCard.status === "skipped" && (
+                {readOnly && selectedCard.status === "skipped" && (
                   <p className="text-xs text-orange-500">
-                    Skipped — revisit on your turn
+                    {isMyTurn ? "Revisit on your turn" : "Skipped — viewing only"}
                   </p>
                 )}
-                {isViewingOnly && selectedCard.status === "discussed" && (
+                {readOnly && selectedCard.status === "discussed" && (
                   <p className="text-xs text-amber-500">Already discussed</p>
                 )}
-                {!isViewingOnly && isRevisiting && (
+                {!readOnly && isRevisiting && (
                   <p className="text-xs text-orange-500">
                     Revisiting skipped card
                   </p>
@@ -121,7 +123,7 @@ export function DiscussionModal() {
 
           {/* Footer buttons */}
           <div className="p-5 border-t border-amber-100">
-            {isViewingOnly ? (
+            {readOnly ? (
               <button
                 onClick={handleClose}
                 className="w-full bg-amber-100 text-amber-800 py-3 rounded-lg font-semibold hover:bg-amber-200 transition-colors"

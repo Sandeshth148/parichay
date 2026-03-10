@@ -151,7 +151,9 @@ export function RoomPage() {
                 key={l.id}
                 onClick={() => !isLocked && handleGoToLevel(l.id)}
                 disabled={isLocked || advancing}
-                title={isLocked ? "Complete the current level first" : undefined}
+                title={
+                  isLocked ? "Complete the current level first" : undefined
+                }
                 className={`text-xs px-3 py-1 rounded-full font-semibold transition-colors ${
                   isCurrentLevel
                     ? "bg-amber-600 text-white"
@@ -183,22 +185,31 @@ export function RoomPage() {
           <div className="mb-4 bg-white rounded-2xl shadow-md border border-green-200 p-4 text-center">
             <div className="flex items-center justify-center gap-2 mb-2">
               <Trophy className="w-5 h-5 text-green-600" />
-              <span className="font-bold text-amber-900 text-sm">{currentLevel?.title} Complete!</span>
+              <span className="font-bold text-amber-900 text-sm">
+                {currentLevel?.title} Complete!
+              </span>
             </div>
             {!isLastLevel && nextLevel ? (
               <>
-                <p className="text-xs text-amber-600 mb-3">Up next: <span className="font-semibold">{nextLevel.title}</span> — {nextLevel.description}</p>
+                <p className="text-xs text-amber-600 mb-3">
+                  Up next:{" "}
+                  <span className="font-semibold">{nextLevel.title}</span> —{" "}
+                  {nextLevel.description}
+                </p>
                 <button
                   onClick={handleAdvanceLevel}
                   disabled={advancing}
                   className="bg-amber-600 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-amber-700 transition-colors flex items-center gap-1 mx-auto disabled:opacity-50"
                 >
-                  Continue to {nextLevel.title} <ChevronRight className="w-4 h-4" />
+                  Continue to {nextLevel.title}{" "}
+                  <ChevronRight className="w-4 h-4" />
                 </button>
               </>
             ) : (
               <>
-                <p className="text-xs text-amber-600 mb-3">You've completed all {MAX_LEVEL} levels — what a journey!</p>
+                <p className="text-xs text-amber-600 mb-3">
+                  You've completed all {MAX_LEVEL} levels — what a journey!
+                </p>
                 <button
                   onClick={handleFinishGame}
                   className="bg-amber-600 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-amber-700 transition-colors mx-auto"

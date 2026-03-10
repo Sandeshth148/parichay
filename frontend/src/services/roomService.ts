@@ -165,7 +165,12 @@ export async function completeRoom(roomCode: string): Promise<void> {
 export async function getMyRooms(userId: string): Promise<Room[]> {
   // Query both ways: new rooms use playerIds array-contains, old rooms only have hostUserId
   const [byPlayerIds, byHost] = await Promise.all([
-    getDocs(query(collection(db!, "rooms"), where("playerIds", "array-contains", userId))),
+    getDocs(
+      query(
+        collection(db!, "rooms"),
+        where("playerIds", "array-contains", userId),
+      ),
+    ),
     getDocs(query(collection(db!, "rooms"), where("hostUserId", "==", userId))),
   ]);
 
