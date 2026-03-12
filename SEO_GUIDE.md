@@ -8,11 +8,11 @@ This document explains every SEO technique applied to **Parichay**, with the rea
 
 A search engine has three steps:
 
-| Step | What happens |
-|------|-------------|
-| **Crawl** | A bot (Googlebot) visits your URL and reads the HTML |
-| **Index** | It stores what it found in a giant database |
-| **Rank** | When a user searches, it picks the best-matching pages and orders them |
+| Step      | What happens                                                           |
+| --------- | ---------------------------------------------------------------------- |
+| **Crawl** | A bot (Googlebot) visits your URL and reads the HTML                   |
+| **Index** | It stores what it found in a giant database                            |
+| **Rank**  | When a user searches, it picks the best-matching pages and orders them |
 
 Your job as a developer is to make each step as easy as possible.
 
@@ -35,7 +35,10 @@ Meta tags live in `<head>` and are invisible to users but critical for crawlers 
 ### 2.2 `<meta name="description">`
 
 ```html
-<meta name="description" content="Parichay is a guided conversation card game for arranged marriage introductions..." />
+<meta
+  name="description"
+  content="Parichay is a guided conversation card game for arranged marriage introductions..."
+/>
 ```
 
 - **What it does:** The grey snippet text that appears under the title in Google results.
@@ -45,12 +48,16 @@ Meta tags live in `<head>` and are invisible to users but critical for crawlers 
 ### 2.3 `<meta name="keywords">`
 
 ```html
-<meta name="keywords" content="arranged marriage app, conversation starter, parichay..." />
+<meta
+  name="keywords"
+  content="arranged marriage app, conversation starter, parichay..."
+/>
 ```
 
 - **Interview point:** Google has officially **ignored** the keywords meta tag since ~2009. It is still useful for Bing and for your own documentation. Never spam it — it can hurt you on some smaller engines.
 
 ### 2.4 `<meta name="author">`
+
 Minimal signal, but good practice. Some search engines display the author for article-type content.
 
 ### 2.5 `<link rel="canonical">`
@@ -77,26 +84,37 @@ Open Graph was invented by **Facebook** (2010) and is now the universal standard
 - iMessage (link previews)
 
 ```html
-<meta property="og:type"        content="website" />
-<meta property="og:url"         content="https://parichay-six.vercel.app/" />
-<meta property="og:title"       content="Parichay — Conversations Before Commitment" />
-<meta property="og:description" content="A guided card game for arranged marriage introductions..." />
-<meta property="og:image"       content="https://parichay-six.vercel.app/og-image.png" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://parichay-six.vercel.app/" />
+<meta
+  property="og:title"
+  content="Parichay — Conversations Before Commitment"
+/>
+<meta
+  property="og:description"
+  content="A guided card game for arranged marriage introductions..."
+/>
+<meta
+  property="og:image"
+  content="https://parichay-six.vercel.app/og-image.png"
+/>
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:locale"      content="en_IN" />
-<meta property="og:site_name"   content="Parichay" />
+<meta property="og:locale" content="en_IN" />
+<meta property="og:site_name" content="Parichay" />
 ```
 
 ### OG Image Specs
-| Property | Required value |
-|----------|---------------|
-| Dimensions | 1200 × 630 px (1.91:1 ratio) |
-| File type | PNG or JPG (not SVG — WhatsApp doesn't render SVG) |
-| Max file size | ~8 MB (keep under 1 MB for fast loading) |
+
+| Property      | Required value                                            |
+| ------------- | --------------------------------------------------------- |
+| Dimensions    | 1200 × 630 px (1.91:1 ratio)                              |
+| File type     | PNG or JPG (not SVG — WhatsApp doesn't render SVG)        |
+| Max file size | ~8 MB (keep under 1 MB for fast loading)                  |
 | Text on image | Keep important text away from edges (some platforms crop) |
 
 **How the OG image was generated programmatically:**
+
 1. Designed in SVG (`public/og-image.svg`) — vector, scalable, editable as text
 2. Converted to PNG using **sharp** (`scripts/generate-og.mjs`) — a high-performance Node.js image processing library
 3. Output saved to `public/og-image.png` so Vite copies it to the build output
@@ -115,10 +133,16 @@ await sharp(svg).resize(1200, 630).png().toFile("public/og-image.png");
 ## 4. Twitter / X Cards
 
 ```html
-<meta name="twitter:card"        content="summary_large_image" />
-<meta name="twitter:title"       content="Parichay — Conversations Before Commitment" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta
+  name="twitter:title"
+  content="Parichay — Conversations Before Commitment"
+/>
 <meta name="twitter:description" content="..." />
-<meta name="twitter:image"       content="https://parichay-six.vercel.app/og-image.png" />
+<meta
+  name="twitter:image"
+  content="https://parichay-six.vercel.app/og-image.png"
+/>
 ```
 
 - Uses the same image as OG. `summary_large_image` shows the full-width image card (vs `summary` which shows a smaller thumbnail).
@@ -132,15 +156,15 @@ JSON-LD (JSON for Linked Data) is a machine-readable format that Google reads to
 
 ```html
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "Parichay",
-  "url": "https://parichay-six.vercel.app/",
-  "description": "...",
-  "applicationCategory": "LifestyleApplication",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
-}
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Parichay",
+    "url": "https://parichay-six.vercel.app/",
+    "description": "...",
+    "applicationCategory": "LifestyleApplication",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
+  }
 </script>
 ```
 
@@ -149,11 +173,12 @@ JSON-LD (JSON for Linked Data) is a machine-readable format that Google reads to
 - **Interview point:** JSON-LD can unlock **rich results** in Google (star ratings, prices, breadcrumbs shown directly in the search result). Test at: https://search.google.com/test/rich-results
 
 ### Difference between JSON-LD and Microdata
-| | JSON-LD | Microdata |
-|---|---|---|
-| Format | Separate `<script>` tag | Inline HTML attributes (`itemscope`, `itemprop`) |
-| Maintainability | Easy — decoupled from HTML | Hard — mixed into HTML |
-| Google preference | **Recommended** | Supported but not preferred |
+
+|                   | JSON-LD                    | Microdata                                        |
+| ----------------- | -------------------------- | ------------------------------------------------ |
+| Format            | Separate `<script>` tag    | Inline HTML attributes (`itemscope`, `itemprop`) |
+| Maintainability   | Easy — decoupled from HTML | Hard — mixed into HTML                           |
+| Google preference | **Recommended**            | Supported but not preferred                      |
 
 ---
 
@@ -250,6 +275,7 @@ export function usePageTitle(title: string) {
 ```
 
 Used in each page component:
+
 ```tsx
 export function DashboardPage() {
   usePageTitle("Dashboard"); // → "Dashboard — Parichay"
@@ -270,23 +296,25 @@ This is how you tell Google your site exists and track how it ranks.
 2. Click **Add Property** → choose **URL prefix** → enter `https://parichay-six.vercel.app/`
 3. **Verify ownership** — Google offers several methods:
 
-| Method | How |
-|--------|-----|
-| HTML file | Download a file like `googleXXXXX.html` and deploy it in `public/` |
-| HTML meta tag | Add `<meta name="google-site-verification" content="xxxxx" />` to `index.html` |
-| DNS TXT record | Add a TXT record to your domain's DNS (best for custom domains) |
-| Google Analytics | If GA is already installed, click "Verify with GA" |
+| Method           | How                                                                            |
+| ---------------- | ------------------------------------------------------------------------------ |
+| HTML file        | Download a file like `googleXXXXX.html` and deploy it in `public/`             |
+| HTML meta tag    | Add `<meta name="google-site-verification" content="xxxxx" />` to `index.html` |
+| DNS TXT record   | Add a TXT record to your domain's DNS (best for custom domains)                |
+| Google Analytics | If GA is already installed, click "Verify with GA"                             |
 
 4. Once verified, click **Sitemaps** → paste `sitemap.xml` path → submit
 5. Click **Request Indexing** on your homepage URL to speed up first crawl
 
 ### What Google Search Console shows you:
+
 - **Performance** — clicks, impressions, average position, CTR per query
 - **Coverage** — which pages Google has indexed, which failed
 - **Core Web Vitals** — LCP, FID, CLS scores from real users
 - **Mobile Usability** — pages with mobile issues
 
 ### What you likely did for FitLog on Netlify:
+
 You added the GSC HTML verification file or meta tag, submitted the sitemap, and Google indexed the site. When Google indexes a site, it starts appearing in search results for relevant queries — especially exact name searches like "fitlog netlify".
 
 ---
@@ -295,15 +323,16 @@ You added the GSC HTML verification file or meta tag, submitted the sitemap, and
 
 Google uses page performance as a ranking signal since 2021. The three metrics:
 
-| Metric | Full name | Measures | Good threshold |
-|--------|-----------|----------|----------------|
-| **LCP** | Largest Contentful Paint | Loading performance — time until largest image/text is visible | < 2.5 s |
-| **FID** | First Input Delay | Interactivity — delay between user click and browser response | < 100 ms |
-| **CLS** | Cumulative Layout Shift | Visual stability — how much content jumps around while loading | < 0.1 |
+| Metric  | Full name                | Measures                                                       | Good threshold |
+| ------- | ------------------------ | -------------------------------------------------------------- | -------------- |
+| **LCP** | Largest Contentful Paint | Loading performance — time until largest image/text is visible | < 2.5 s        |
+| **FID** | First Input Delay        | Interactivity — delay between user click and browser response  | < 100 ms       |
+| **CLS** | Cumulative Layout Shift  | Visual stability — how much content jumps around while loading | < 0.1          |
 
 > FID is being replaced by **INP (Interaction to Next Paint)** from 2024 onward.
 
 **Tools to measure:**
+
 - Chrome DevTools → Lighthouse tab
 - https://pagespeed.web.dev/
 - Google Search Console → Core Web Vitals report
@@ -312,12 +341,12 @@ Google uses page performance as a ranking signal since 2021. The three metrics:
 
 ## 13. What Does NOT Affect Google Ranking (Common Misconceptions)
 
-| Myth | Reality |
-|------|---------|
-| `<meta name="keywords">` | Ignored by Google since 2009 |
-| Submitting to directories | Largely irrelevant today |
-| Keyword stuffing | **Penalised** by Google since Panda (2011) |
-| Social media likes/shares | Not a direct ranking signal |
+| Myth                                   | Reality                                                                         |
+| -------------------------------------- | ------------------------------------------------------------------------------- |
+| `<meta name="keywords">`               | Ignored by Google since 2009                                                    |
+| Submitting to directories              | Largely irrelevant today                                                        |
+| Keyword stuffing                       | **Penalised** by Google since Panda (2011)                                      |
+| Social media likes/shares              | Not a direct ranking signal                                                     |
 | robots.txt blocks = better performance | Google ignores blocked pages — they may still appear in results without content |
 
 ---
@@ -343,13 +372,13 @@ Google uses page performance as a ranking signal since 2021. The three metrics:
 
 ## 15. Tools Reference
 
-| Tool | URL | Use |
-|------|-----|-----|
-| Google Search Console | https://search.google.com/search-console/ | Track indexing, submit sitemap |
-| PageSpeed Insights | https://pagespeed.web.dev/ | Core Web Vitals measurement |
-| Rich Results Test | https://search.google.com/test/rich-results | Validate JSON-LD structured data |
-| Open Graph Debugger | https://developers.facebook.com/tools/debug/ | Preview and refresh FB/WA OG card |
-| Twitter Card Validator | https://cards-dev.twitter.com/validator | Preview Twitter Card |
-| LinkedIn Post Inspector | https://www.linkedin.com/post-inspector/ | Preview LinkedIn share |
-| Schema.org | https://schema.org/ | Browse all structured data types |
-| Ahrefs Webmaster Tools | https://ahrefs.com/webmaster-tools | Free backlink + keyword tracking |
+| Tool                    | URL                                          | Use                               |
+| ----------------------- | -------------------------------------------- | --------------------------------- |
+| Google Search Console   | https://search.google.com/search-console/    | Track indexing, submit sitemap    |
+| PageSpeed Insights      | https://pagespeed.web.dev/                   | Core Web Vitals measurement       |
+| Rich Results Test       | https://search.google.com/test/rich-results  | Validate JSON-LD structured data  |
+| Open Graph Debugger     | https://developers.facebook.com/tools/debug/ | Preview and refresh FB/WA OG card |
+| Twitter Card Validator  | https://cards-dev.twitter.com/validator      | Preview Twitter Card              |
+| LinkedIn Post Inspector | https://www.linkedin.com/post-inspector/     | Preview LinkedIn share            |
+| Schema.org              | https://schema.org/                          | Browse all structured data types  |
+| Ahrefs Webmaster Tools  | https://ahrefs.com/webmaster-tools           | Free backlink + keyword tracking  |

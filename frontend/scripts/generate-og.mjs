@@ -15,8 +15,8 @@ const pngPath = resolve(__dirname, "../public/og-image.png");
 const svg = readFileSync(svgPath);
 
 await sharp(svg)
-  .resize(1200, 630)
-  .png({ compressionLevel: 8 })
-  .toFile(pngPath);
+    .resize(1200, 630)
+    .png({ compressionLevel: 8 })
+    .toFile(pngPath);
 
 console.log("✓ OG image generated → public/og-image.png (1200×630)");
