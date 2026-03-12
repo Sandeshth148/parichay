@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Block auth-gated routes — nothing useful for crawlers there
+Disallow: /dashboard
+Disallow: /room/
+Disallow: /summary
+
+Sitemap: https://parichay-six.vercel.app/sitemap.xml

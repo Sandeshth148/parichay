@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
+import { usePageTitle } from "../hooks/usePageTitle";
 import { Trophy, ArrowLeft } from "lucide-react";
 
 export function SummaryPage() {
+  usePageTitle("All Done!");
   const navigate = useNavigate();
 
   return (

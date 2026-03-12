@@ -1,0 +1,16 @@
+{
+  "name": "Parichay — Conversations Before Commitment",
+  "short_name": "Parichay",
+  "description": "A guided conversation card game for arranged marriage introductions.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fffbeb",
+  "theme_color": "#92400e",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

@@ -7,6 +7,7 @@ import { PlayerPanel } from "../components/PlayerPanel/PlayerPanel";
 import { DiscussionModal } from "../components/DiscussionModal/DiscussionModal";
 import { advanceLevel, completeRoom, goToLevel } from "../services/roomService";
 import { levels } from "../data/topics";
+import { usePageTitle } from "../hooks/usePageTitle";
 import { Copy, Check, LogOut, ChevronRight, Trophy } from "lucide-react";
 import { useState } from "react";
 
@@ -18,6 +19,7 @@ export function RoomPage() {
   const user = useAuthStore((state) => state.user);
   const selectedCard = useGameStore((state) => state.selectedCard);
   const cards = useGameStore((state) => state.cards);
+  usePageTitle(room ? `Room ${roomId}` : "Room");
   const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
   const [advancing, setAdvancing] = useState(false);

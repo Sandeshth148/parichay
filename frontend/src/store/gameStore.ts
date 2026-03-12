@@ -52,10 +52,15 @@ export const useGameStore = create<GameState>((set, get) => ({
     set({ room, cards });
   },
 
-  selectCard: (card) => set({ selectedCard: card, isViewingOnly: false, isAutoOpened: false }),
+  selectCard: (card) =>
+    set({ selectedCard: card, isViewingOnly: false, isAutoOpened: false }),
 
   viewCard: (card, auto) =>
-    set({ selectedCard: card, isViewingOnly: true, isAutoOpened: auto ?? false }),
+    set({
+      selectedCard: card,
+      isViewingOnly: true,
+      isAutoOpened: auto ?? false,
+    }),
 
   closeAuto: () => {
     if (get().isAutoOpened) {
@@ -88,5 +93,11 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   reset: () =>
-    set({ room: null, cards: [], selectedCard: null, isViewingOnly: false, isAutoOpened: false }),
+    set({
+      room: null,
+      cards: [],
+      selectedCard: null,
+      isViewingOnly: false,
+      isAutoOpened: false,
+    }),
 }));

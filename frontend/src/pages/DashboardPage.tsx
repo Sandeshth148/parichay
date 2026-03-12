@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 import { createRoom, joinRoom, getMyRooms } from "../services/roomService";
+import { usePageTitle } from "../hooks/usePageTitle";
 import type { Room } from "../types";
 import { LogOut, Plus, ArrowRight, PlayCircle } from "lucide-react";
 import { levels } from "../data/topics";
 
 export function DashboardPage() {
+  usePageTitle("Dashboard");
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
   const navigate = useNavigate();
