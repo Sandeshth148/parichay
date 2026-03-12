@@ -1,8 +1,6 @@
 {
-    "rewrites": [
-        {
-            "source": "/((?!sitemap\\.xml|robots\\.txt|site\\.webmanifest|og-image\\.png|favicon\\.svg|apple-touch-icon\\.png).*)",
-            "destination": "/index.html"
-        }
+    "routes": [
+        { "handle": "filesystem" },
+        { "src": "/(.*)", "dest": "/index.html" }
     ]
 }
