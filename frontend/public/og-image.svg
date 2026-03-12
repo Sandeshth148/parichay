@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fffbeb"/>
+      <stop offset="100%" style="stop-color:#fed7aa"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#92400e"/>
+      <stop offset="100%" style="stop-color:#78350f"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Decorative left stripe -->
+  <rect x="0" y="0" width="8" height="630" fill="#92400e"/>
+
+  <!-- Card decorations — right side -->
+  <rect x="790" y="70"  width="130" height="160" rx="18" fill="url(#cardGrad)" opacity="0.75"/>
+  <rect x="935" y="50"  width="130" height="160" rx="18" fill="url(#cardGrad)" opacity="0.85"/>
+  <rect x="1060" y="90" width="130" height="160" rx="18" fill="url(#cardGrad)"/>
+  <rect x="810" y="255" width="130" height="160" rx="18" fill="url(#cardGrad)" opacity="0.65"/>
+  <rect x="950" y="235" width="130" height="160" rx="18" fill="url(#cardGrad)" opacity="0.80"/>
+  <rect x="1075" y="270" width="130" height="160" rx="18" fill="url(#cardGrad)"/>
+
+  <!-- Question marks on cards -->
+  <text x="855"  y="168" font-size="56" text-anchor="middle" font-family="Georgia,serif" fill="#fef3c7" opacity="0.8">?</text>
+  <text x="1000" y="148" font-size="56" text-anchor="middle" font-family="Georgia,serif" fill="#fef3c7" opacity="0.9">?</text>
+  <text x="1125" y="188" font-size="56" text-anchor="middle" font-family="Georgia,serif" fill="#fef3c7">?</text>
+  <text x="875"  y="350" font-size="56" text-anchor="middle" font-family="Georgia,serif" fill="#fef3c7" opacity="0.65">?</text>
+  <text x="1015" y="330" font-size="56" text-anchor="middle" font-family="Georgia,serif" fill="#fef3c7" opacity="0.80">?</text>
+  <text x="1140" y="368" font-size="56" text-anchor="middle" font-family="Georgia,serif" fill="#fef3c7">?</text>
+
+  <!-- App name -->
+  <text x="80" y="205" font-size="104" font-family="Georgia,serif" font-weight="bold" fill="#78350f">Parichay</text>
+
+  <!-- Tagline -->
+  <text x="82" y="268" font-size="34" font-family="Arial,Helvetica,sans-serif" fill="#92400e" letter-spacing="1">Conversations Before Commitment</text>
+
+  <!-- Description lines -->
+  <text x="82" y="330" font-size="24" font-family="Arial,Helvetica,sans-serif" fill="#b45309">96 guided questions  ·  6 levels of depth</text>
+  <text x="82" y="368" font-size="24" font-family="Arial,Helvetica,sans-serif" fill="#b45309">Meaningful introductions for arranged marriages</text>
+
+  <!-- Divider -->
+  <line x1="82" y1="410" x2="720" y2="410" stroke="#d97706" stroke-width="2" opacity="0.45"/>
+
+  <!-- Level pills -->
+  <rect x="82"  y="430" width="76" height="34" rx="17" fill="#92400e"/>
+  <text x="120" y="453" font-size="15" text-anchor="middle" font-family="Arial,sans-serif" fill="#fef3c7" font-weight="bold">Basics</text>
+
+  <rect x="170" y="430" width="76" height="34" rx="17" fill="#a16207"/>
+  <text x="208" y="453" font-size="15" text-anchor="middle" font-family="Arial,sans-serif" fill="#fef3c7" font-weight="bold">Values</text>
+
+  <rect x="258" y="430" width="100" height="34" rx="17" fill="#b45309"/>
+  <text x="308" y="453" font-size="15" text-anchor="middle" font-family="Arial,sans-serif" fill="#fef3c7" font-weight="bold">Life &amp; Compat</text>
+
+  <rect x="370" y="430" width="86" height="34" rx="17" fill="#c2410c"/>
+  <text x="413" y="453" font-size="15" text-anchor="middle" font-family="Arial,sans-serif" fill="#fef3c7" font-weight="bold">Future</text>
+
+  <rect x="468" y="430" width="104" height="34" rx="17" fill="#b45309"/>
+  <text x="520" y="453" font-size="15" text-anchor="middle" font-family="Arial,sans-serif" fill="#fef3c7" font-weight="bold">Deep</text>
+
+  <rect x="584" y="430" width="100" height="34" rx="17" fill="#92400e"/>
+  <text x="634" y="453" font-size="15" text-anchor="middle" font-family="Arial,sans-serif" fill="#fef3c7" font-weight="bold">Roots</text>
+
+  <!-- URL bottom -->
+  <text x="82" y="565" font-size="22" font-family="Arial,Helvetica,sans-serif" fill="#92400e" opacity="0.65">parichay-six.vercel.app</text>
+
+  <!-- Bottom right — small brand mark -->
+  <circle cx="1140" cy="580" r="30" fill="#92400e" opacity="0.15"/>
+  <text x="1140" y="590" font-size="28" text-anchor="middle" font-family="Georgia,serif" font-weight="bold" fill="#78350f">P</text>
+</svg>
