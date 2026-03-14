@@ -86,6 +86,10 @@ export function RoomPage() {
   const discussedCount = room.openedCards.length;
   const skippedCount = (room.skippedCards || []).length;
   const levelDone = discussedCount + skippedCount >= cards.length;
+  const totalPoints = cards.reduce((sum, c) => sum + (c.depthPoints ?? 5), 0);
+  const earnedPoints = cards
+    .filter((c) => c.status === "discussed")
+    .reduce((sum, c) => sum + (c.depthPoints ?? 5), 0);
   const isLastLevel = room.level >= MAX_LEVEL;
   const currentLevel = levels.find((l) => l.id === room.level);
   const nextLevel = levels.find((l) => l.id === room.level + 1);
@@ -242,13 +246,16 @@ export function RoomPage() {
         <div className="mb-4">
           <div className="flex items-center justify-between text-xs text-amber-500 mb-1.5 px-1">
             <span>
-              {discussedCount} discussed
-              {skippedCount > 0 && (
-                <span className="text-orange-400">
-                  , {skippedCount} skipped
-                </span>
-              )}{" "}
-              / 16
+              ⭐ {earnedPoints} / {totalPoints} pts
+              <span className="text-amber-400 ml-1">
+                ({discussedCount} discussed
+                {skippedCount > 0 && (
+                  <span className="text-orange-400">
+                    , {skippedCount} skipped
+                  </span>
+                )}
+                )
+              </span>
             </span>
             <span>
               Level {room.level} of {MAX_LEVEL}
@@ -257,11 +264,15 @@ export function RoomPage() {
           <div className="h-1.5 bg-amber-200 rounded-full overflow-hidden flex">
             <div
               className="h-full bg-amber-500 transition-all duration-500"
-              style={{ width: `${(discussedCount / 16) * 100}%` }}
+              style={{
+                width: `${totalPoints > 0 ? (earnedPoints / totalPoints) * 100 : 0}%`,
+              }}
             />
             <div
               className="h-full bg-orange-400 transition-all duration-500"
-              style={{ width: `${(skippedCount / 16) * 100}%` }}
+              style={{
+                width: `${cards.length > 0 ? (skippedCount / cards.length) * 100 : 0}%`,
+              }}
             />
           </div>
         </div>

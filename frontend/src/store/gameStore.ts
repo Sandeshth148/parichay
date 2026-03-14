@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import type { Room, Card } from "../types";
 import { levels } from "../data/topics";
+import { cardMeta } from "../data/cardMeta";
 
 interface GameState {
   room: Room | null;
@@ -40,15 +41,21 @@ export const useGameStore = create<GameState>((set, get) => ({
     }
     const openedSet = new Set(room.openedCards);
     const skippedSet = new Set(room.skippedCards || []);
-    const cards = levelData.cards.map((c) => ({
-      ...c,
-      opened: openedSet.has(c.id) || skippedSet.has(c.id),
-      status: openedSet.has(c.id)
-        ? ("discussed" as const)
-        : skippedSet.has(c.id)
-          ? ("skipped" as const)
-          : ("unvisited" as const),
-    }));
+    const levelMeta = cardMeta[room.level] ?? {};
+    const cards = levelData.cards.map((c) => {
+      const meta = levelMeta[c.id];
+      return {
+        ...c,
+        opened: openedSet.has(c.id) || skippedSet.has(c.id),
+        status: openedSet.has(c.id)
+          ? ("discussed" as const)
+          : skippedSet.has(c.id)
+            ? ("skipped" as const)
+            : ("unvisited" as const),
+        isPillar: meta?.isPillar ?? false,
+        depthPoints: meta?.depthPoints ?? 5,
+      };
+    });
     set({ room, cards });
   },
 

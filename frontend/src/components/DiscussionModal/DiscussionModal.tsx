@@ -86,6 +86,11 @@ export function DiscussionModal() {
                 <h3 className="text-base font-bold text-amber-900 leading-tight">
                   {selectedCard.topic}
                 </h3>
+                {selectedCard.isPillar && (
+                  <p className="text-[10px] font-semibold text-amber-500 flex items-center gap-0.5 mt-0.5">
+                    <span>⭐</span> Core topic
+                  </p>
+                )}
                 {readOnly && selectedCard.status === "skipped" && (
                   <p className="text-xs text-orange-500">
                     {isMyTurn

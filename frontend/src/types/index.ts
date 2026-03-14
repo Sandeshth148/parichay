@@ -28,6 +28,8 @@ export interface Card {
   opened: boolean;
   openedBy: string | null;
   status?: "unvisited" | "discussed" | "skipped";
+  isPillar?: boolean;
+  depthPoints?: number;
 }
 
 export interface Level {

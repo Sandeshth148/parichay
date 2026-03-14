@@ -62,9 +62,14 @@ export function Card({ card, isMyTurn, onFlip, onReview }: CardProps) {
             isMyTurn && !card.opened
               ? "bg-amber-800 text-amber-200 hover:bg-amber-700 shadow-lg"
               : "bg-amber-900/70 text-amber-400"
-          }`}
+          }${card.isPillar && !card.opened ? " ring-2 ring-amber-400/80 shadow-[0_0_10px_rgba(245,158,11,0.45)]" : ""}`}
           style={{ backfaceVisibility: "hidden" }}
         >
+          {card.isPillar && !card.opened && (
+            <span className="absolute top-1 right-1 text-[10px] leading-none select-none">
+              ⭐
+            </span>
+          )}
           ?
         </div>
 

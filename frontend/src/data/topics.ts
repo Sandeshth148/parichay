@@ -367,6 +367,17 @@ export const levels: Level[] = [
         opened: false,
         openedBy: null,
       },
+      {
+        id: 17,
+        topic: "Cleanliness & Order",
+        prompts: [
+          "How much mess genuinely bothers you — and where is your threshold between relaxed and uncomfortable?",
+          "Are you naturally organised, or do you adapt easily to different living environments?",
+          "How would you handle living with someone whose cleanliness standards are noticeably different from yours?",
+        ],
+        opened: false,
+        openedBy: null,
+      },
     ],
   },
   {
@@ -547,6 +558,17 @@ export const levels: Level[] = [
           "Do you expect both partners to work after marriage, or are you comfortable with one being the primary earner?",
           "How would you feel if your partner wanted to take a career break to raise children?",
           "If financial pressure came, how would you decide as a couple who steps up — and what would that look like practically?",
+        ],
+        opened: false,
+        openedBy: null,
+      },
+      {
+        id: 17,
+        topic: "Public Privacy as Couple",
+        prompts: [
+          "Should couple disagreements stay fully private, or is it healthy to involve trusted people occasionally?",
+          "How much should family know about what happens between you two?",
+          "Where is the line between seeking support and oversharing your relationship with others?",
         ],
         opened: false,
         openedBy: null,
@@ -1094,6 +1116,17 @@ export const levels: Level[] = [
       },
       {
         id: 16,
+        topic: "What I Can Consistently Offer in Marriage",
+        prompts: [
+          "What strength do you think you reliably bring into a marriage — on ordinary, unremarkable days?",
+          "What kind of partner do you believe you actually are when life is not exciting or difficult?",
+          "What is one thing you are genuinely committed to showing up with, even when you do not feel like it?",
+        ],
+        opened: false,
+        openedBy: null,
+      },
+      {
+        id: 17,
         topic: "Why You Are Here",
         prompts: [
           "Why did you agree to have these conversations — what were you really hoping for?",
