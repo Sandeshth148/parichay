@@ -573,6 +573,17 @@ export const levels: Level[] = [
         opened: false,
         openedBy: null,
       },
+      {
+        id: 18,
+        topic: "Lifestyle Gap & Adjustment",
+        prompts: [
+          "If two people come from different financial backgrounds or lifestyle standards, how do you think adjustment should happen — who moves more, and how would that feel?",
+          "Are there comforts or standards in your current lifestyle that you would find genuinely difficult to reduce — even temporarily?",
+          "What does adjusting to each other's lifestyle mean to you practically — and where would you expect fairness rather than sacrifice?",
+        ],
+        opened: false,
+        openedBy: null,
+      },
     ],
   },
   {
@@ -757,6 +768,17 @@ export const levels: Level[] = [
         opened: false,
         openedBy: null,
       },
+      {
+        id: 17,
+        topic: "Support During Difficult Phases",
+        prompts: [
+          "If your partner went through a prolonged difficult phase — job loss, health issues, or emotional low — what does genuinely standing by them look like to you in practice?",
+          "Have you seen a difficult period test a relationship around you? What did that teach you about what you want from a partner?",
+          "What do you need most from a partner when you are not at your best — and what would feel like abandonment to you?",
+        ],
+        opened: false,
+        openedBy: null,
+      },
     ],
   },
   {
@@ -937,6 +959,17 @@ export const levels: Level[] = [
           "What is one thing a partner must always do for you to feel secure?",
           "What is one thing a partner must never do?",
           "Are your non-negotiables rooted in your values, or in past wounds?",
+        ],
+        opened: false,
+        openedBy: null,
+      },
+      {
+        id: 17,
+        topic: "Acceptance vs. Expectation",
+        prompts: [
+          "Are you saying yes to who this person is today, or also to who you believe they will become — and how different are those two people in your mind?",
+          "What imperfections in a person are you genuinely easy with — and what becomes quietly difficult to live with over time?",
+          "If this person stays largely the same as they are right now — no major change — would you still be fully at peace with that choice?",
         ],
         opened: false,
         openedBy: null,
@@ -1132,6 +1165,17 @@ export const levels: Level[] = [
           "Why did you agree to have these conversations — what were you really hoping for?",
           "What does it mean to you that this person sat with you through everything you just discussed?",
           "What do you hope for now?",
+        ],
+        opened: false,
+        openedBy: null,
+      },
+      {
+        id: 18,
+        topic: "Wedding & Marriage Expectations",
+        prompts: [
+          "How important are traditional customs, gifts, or jewellery expectations during the wedding to you personally — and where does that importance come from?",
+          "Which wedding-related expectations feel non-negotiable to you, and which ones can you genuinely be flexible about?",
+          "How should two families approach each other's expectations so that the marriage begins comfortably — not under financial pressure or unspoken obligation?",
         ],
         opened: false,
         openedBy: null,

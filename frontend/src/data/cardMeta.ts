@@ -71,6 +71,7 @@ export const cardMeta: Record<number, Record<number, CardWeight>> = {
     15: { isPillar: false, depthPoints: 5 }, // Apologies & Forgiveness
     16: { isPillar: false, depthPoints: 5 }, // Earning Together or Apart
     17: { isPillar: true, depthPoints: 10 }, // Public Privacy as Couple ⭐
+    18: { isPillar: true, depthPoints: 10 }, // Lifestyle Gap & Adjustment ⭐
   },
   4: {
     //  Level 4 — Marriage Mechanics & Future
@@ -90,6 +91,7 @@ export const cardMeta: Record<number, Record<number, CardWeight>> = {
     14: { isPillar: false, depthPoints: 5 }, // Family Pressure vs. Personal Choice
     15: { isPillar: false, depthPoints: 2 }, // Legacy & Purpose
     16: { isPillar: false, depthPoints: 2 }, // Big Scary Dreams
+    17: { isPillar: true, depthPoints: 10 }, // Support During Difficult Phases ⭐
   },
   5: {
     //  Level 5 — Emotional Depth
@@ -109,6 +111,7 @@ export const cardMeta: Record<number, Record<number, CardWeight>> = {
     14: { isPillar: false, depthPoints: 5 }, // Loneliness
     15: { isPillar: false, depthPoints: 5 }, // What Scares You About This Relationship
     16: { isPillar: true, depthPoints: 10 }, // Non-Negotiables ⭐
+    17: { isPillar: true, depthPoints: 10 }, // Acceptance vs. Expectation ⭐
   },
   6: {
     //  Level 6 — Roots, Crisis & Long-Term Life
@@ -129,5 +132,6 @@ export const cardMeta: Record<number, Record<number, CardWeight>> = {
     15: { isPillar: true, depthPoints: 10 }, // Your Expectations of This Relationship ⭐
     16: { isPillar: true, depthPoints: 10 }, // What I Can Consistently Offer ⭐
     17: { isPillar: false, depthPoints: 5 }, // Why You Are Here
+    18: { isPillar: true, depthPoints: 10 }, // Wedding & Marriage Expectations ⭐
   },
 };
